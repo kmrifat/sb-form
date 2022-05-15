@@ -1,7 +1,13 @@
 {
   "name": "sb-form",
-  "private": true,
-  "version": "0.0.0",
+  "description": "SB Form is a dynamic form build with vue3 for laravel and vue application",
+  "author": "K M Rifat ul alom <kmrifat@gmail.com>",
+  "keywords": [
+    "vue dynamic form",
+    "laravel vue form"
+  ],
+  "private": false,
+  "version": "0.1.0",
   "main": "./dist/index.umd.js",
   "module": "./dist/index.es.js",
   "exports": {
