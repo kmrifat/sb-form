@@ -6,11 +6,13 @@
       </slot>
     </div>
     <div class="card-body row">
+      <slot name="fields-before"></slot>
       <template v-for="(field, key) of fields">
         <component :is="field.type ? field.type : 'string'" v-model="models[key]" :fieldInfo="field"
                    :axios="axios"
                    class="mb-1"/>
       </template>
+      <slot name="fields-after"></slot>
     </div>
     <div class="card-footer">
       <slot name="footer">
