@@ -103,7 +103,7 @@ export default {
     this.axios.get('/files').then(({data}) => {
       this.file_list = data
     }).catch(error => {
-      console.log(error)
+      throw error
     })
   }
 }

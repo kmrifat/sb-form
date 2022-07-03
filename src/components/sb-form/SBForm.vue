@@ -73,7 +73,8 @@ export default {
       required: false
     },
     axios: {
-      type: Function
+      type: Function,
+      required: true
     }
   },
   data() {
@@ -104,7 +105,7 @@ export default {
      * and the form reset can be enable or disable by the @resetForm props
      */
     async submit() {
-      console.log(this.axios().baseURL)
+      // console.log(this.axios().baseURL)
       await this.axios(this.config).then(response => {
         if (this.callBack) {
           this.$parent[this.callBack](response.data);
@@ -115,7 +116,11 @@ export default {
         console.log(response)
         toastr.success(response.data.message, `${response.status} ${response.statusText}`)
       }).catch(error => {
-        toastr.error(error.response.data.message, `${error.response.status} ${error.response.statusText}`)
+        try {
+          toastr.error(error.response.data.message, `${error.response.status} ${error.response.statusText}`)
+        } catch (e) {
+          throw error
+        }
         switch (error.response.status) {
           case 422:
             console.log(error.response.data)
@@ -125,6 +130,7 @@ export default {
             console.log(error.response)
             break
         }
+        throw error
       })
     },
     setValidationError(error_data) {
