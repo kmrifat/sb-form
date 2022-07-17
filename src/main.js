@@ -5,6 +5,7 @@ import VueProgressBar from "@aacassandra/vue3-progressbar"
 
 import 'bootstrap/scss/bootstrap.scss'
 import 'toastr/toastr.scss'
+import router from "./router";
 
 const app = createApp(App);
 
@@ -13,6 +14,6 @@ const vueProgressBarOption = {
     thickness: "5px"
 }
 
-app.use(VueProgressBar, vueProgressBarOption).use(store)
+app.use(VueProgressBar, vueProgressBarOption).use(store).use(router)
 
 export default app.mount("#app")

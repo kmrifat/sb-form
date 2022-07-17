@@ -32,8 +32,10 @@
   "dependencies": {
     "@popperjs/core": "^2.11.5",
     "bootstrap": "^5.2.0-beta1",
+    "laravel-vue-pagination": "^3.0.0",
     "toastr": "^2.1.4",
-    "vue": "^3.2.25"
+    "vue": "^3.2.25",
+    "vue-router": "^4.1.2"
   },
   "devDependencies": {
     "@aacassandra/vue3-progressbar": "^1.0.3",
