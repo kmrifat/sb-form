@@ -119,7 +119,7 @@ export default {
         }).then(response => {
           this.data.splice(this.data.indexOf(item), 1)
           toastr.success(response.data.message, "Success")
-        }).catch((err) => {
+        }).catch((error) => {
           toastr.error(error.response.data.message, `${error.response.status} ${error.response.statusText}`)
         })
       }
