@@ -4,6 +4,7 @@
  * @property {string} [placeholder]
  * @property {string} [col]
  * @property {null|array} [error]
+ * @property {any} [value]
  */
 class BaseField {
     /**
