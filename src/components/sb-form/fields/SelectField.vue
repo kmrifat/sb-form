@@ -20,9 +20,19 @@
 
 <script>
 
+import SelectField from "../models/SelectField";
+
 export default {
   name: "SelectField",
-  props: ['modelValue', 'fieldInfo', 'axios'],
+  // props: ['modelValue', 'fieldInfo', 'axios'],
+  props: {
+    modelValue: {},
+    fieldInfo: {
+      type: SelectField,
+      required: true,
+      default: () => new SelectField()
+    }
+  },
   emits: ['update:modelValue'],
   methods: {
     setModel($event) {
@@ -35,6 +45,7 @@ export default {
     },
   },
   mounted() {
+    console.log("sdf")
     if (this.fieldInfo.ajax) this.fetchOptionData()
   }
 }

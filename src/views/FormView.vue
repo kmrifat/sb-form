@@ -7,6 +7,7 @@
 <script>
 import SBForm from "../components/sb-form/SBForm.vue";
 import apiService from "../services/apiService";
+import {EmailField, FileFiled, PasswordField, SelectField, StringField} from "../components/sb-form/models";
 
 export default {
   name: "FormView",
@@ -16,20 +17,15 @@ export default {
   data: () => ({
     axios: apiService,
     fields: {
-      name: {
-        label: 'Full Name'
-      },
-      email: {
-        label: 'Email Address'
-      },
-      password: {
-        label: 'Password',
-        type: 'password'
-      },
-      photo: {
-        label: 'Photo',
-        type: 'file_field'
-      }
+      name: new StringField({label: 'Full Name'}),
+      email: new EmailField({label: 'Email Address'}),
+      password: new PasswordField({label: 'Password'}),
+      photo: new FileFiled({label: 'Photo'}),
+      gender: new SelectField({
+        label: 'Gender',
+        options: [{id: 1, name: 'Rifat'}],
+        config: {value: 'id', display: 'name'}
+      })
     }
   })
 }

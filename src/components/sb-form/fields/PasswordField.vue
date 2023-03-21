@@ -31,9 +31,19 @@
 </template>
 
 <script>
+import {PasswordField} from "../models";
+
 export default {
   name: "PasswordField",
-  props: ['modelValue', 'fieldInfo'],
+  // props: ['modelValue', 'fieldInfo'],
+  props: {
+    modelValue: {},
+    fieldInfo: {
+      type: PasswordField,
+      required: true,
+      default: () => new PasswordField()
+    }
+  },
   emits: ['update:modelValue'],
   data() {
     return {
