@@ -17,7 +17,7 @@ export default {
   data: () => ({
     axios: apiService,
     fields: {
-      name: new StringField({label: 'Full Name'}),
+      name: new StringField({label: 'Full Name', value: 'Rifat'}),
       email: new EmailField({label: 'Email Address'}),
       password: new PasswordField({label: 'Password'}),
       photo: new FileFiled({label: 'Photo'}),

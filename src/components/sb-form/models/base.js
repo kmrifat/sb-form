@@ -16,6 +16,7 @@ class BaseField {
         this.placeholder = props.placeholder || '';
         this.col = props.col || null
         this.error = props.error || null
+        this.value = props.value
     }
 }
 
