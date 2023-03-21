@@ -22,6 +22,10 @@ export default {
       email: {
         label: 'Email Address'
       },
+      password: {
+        label: 'Password',
+        type: 'password'
+      },
       photo: {
         label: 'Photo',
         type: 'file_field'
