@@ -65,6 +65,8 @@
 <script>
 // import axios from "@/services/apiService";
 
+import MultiselectField from "../models/MultiselectField";
+
 export default {
   name: "MultiSelectField",
   props: {
@@ -72,9 +74,9 @@ export default {
       type: Array
     },
     'fieldInfo': {
-      default: {
-        config: {}
-      }
+      type: MultiselectField,
+      required: true,
+      default: () => new MultiselectField()
     },
     'axios': {}
   },

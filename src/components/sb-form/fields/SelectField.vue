@@ -39,14 +39,13 @@ export default {
       this.$emit('update:modelValue', $event.target.value)
     },
     fetchOptionData() {
-      this.axios.get(this.fieldInfo.ajax).then(response => {
+      this.axios.get(this.fieldInfo.fetchUrl).then(response => {
         this.fieldInfo.options = response.data
       })
     },
   },
   mounted() {
-    console.log("sdf")
-    if (this.fieldInfo.ajax) this.fetchOptionData()
+    if (this.fieldInfo.fetchUrl) this.fetchOptionData()
   }
 }
 </script>

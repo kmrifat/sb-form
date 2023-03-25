@@ -5,6 +5,7 @@
  * @property {string} [col]
  * @property {null|array} [error]
  * @property {any} [value]
+ * @property {boolean} [required]
  */
 class BaseField {
     /**

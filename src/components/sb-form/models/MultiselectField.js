@@ -1,8 +1,7 @@
 import BaseField from "./base";
 
-
 /**
- * @typedef {Object} SelectFieldProps
+ * @typedef {Object} MultiSelectProps
  * @property {string} [label]
  * @property {string} [placeholder]
  * @property {string} [col]
@@ -12,9 +11,9 @@ import BaseField from "./base";
  * @property {string} [fetchUrl]
  * @property {{value: string | number, default: string, help: string, display: string}} [config]
  */
-class SelectField extends BaseField {
+class MultiselectField extends BaseField {
     /**
-     * @param {SelectFieldProps} [props]
+     * @param {MultiSelectProps} [props]
      */
     constructor(props = {}) {
         super(props);
@@ -22,8 +21,8 @@ class SelectField extends BaseField {
         this.fetchUrl = props.fetchUrl || null
         this.axios = props.axios
         this.config = props.config || {}
-        this.type = 'select_field'
+        this.type = 'multiselect_field'
     }
 }
 
-export default SelectField
+export default MultiselectField

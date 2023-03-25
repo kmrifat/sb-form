@@ -14,9 +14,19 @@
 </template>
 
 <script>
+import {TextField} from "../models";
+
 export default {
   name: "InputField",
-  props: ['modelValue', 'fieldInfo'],
+  // props: ['modelValue', 'fieldInfo'],
+  props: {
+    modelValue: {},
+    fieldInfo: {
+      type: TextField,
+      required: true,
+      default: new TextField()
+    }
+  },
   emits: ['update:modelValue'],
 }
 </script>
