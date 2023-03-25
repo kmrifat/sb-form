@@ -21,7 +21,10 @@ import {StringField} from "../models";
 export default {
   name: "StringField",
   props: {
-    modelValue: '',
+    modelValue: {
+      type: String,
+      default: ''
+    },
     fieldInfo: {
       type: StringField,
       required: true,

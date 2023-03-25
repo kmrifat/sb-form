@@ -34,8 +34,8 @@ export default {
         config: {value: 'id', display: 'name'},
         value: 1
       }),
-      checkbox: new CheckboxField({
-        label: 'Check Box',
+      multi_checkbox: new CheckboxField({
+        label: 'Multiple Check Box',
         inline: true,
         options: [
           {label: 'Hello 1', value: 1},
@@ -43,6 +43,12 @@ export default {
           {label: 'hello 3', value: 3}
         ],
         value: [1, 2]
+      }),
+      single_checkbox: new CheckboxField({
+        label: 'Single Checkbox',
+        option: {
+          value: 'active', label: 'Active'
+        }
       })
     }
   })
