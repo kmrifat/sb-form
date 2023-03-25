@@ -8,7 +8,7 @@ import BaseField from "./base";
  * @property {null|array} [error]
  * @property {string} [value]
  */
-class HiddenFields extends BaseField {
+class HiddenField extends BaseField {
     /**
      * @param {HiddenFieldsProps} [props]
      */
@@ -19,4 +19,4 @@ class HiddenFields extends BaseField {
 
 }
 
-export default HiddenFields
+export default HiddenField

@@ -7,7 +7,14 @@
 <script>
 import SBForm from "../components/sb-form/SBForm.vue";
 import apiService from "../services/apiService";
-import {EmailField, FileFiled, PasswordField, SelectField, StringField} from "../components/sb-form/models";
+import {
+  CheckboxField,
+  EmailField,
+  FileFiled,
+  PasswordField,
+  SelectField,
+  StringField
+} from "../components/sb-form/models";
 
 export default {
   name: "FormView",
@@ -24,7 +31,18 @@ export default {
       gender: new SelectField({
         label: 'Gender',
         options: [{id: 1, name: 'Rifat'}],
-        config: {value: 'id', display: 'name'}
+        config: {value: 'id', display: 'name'},
+        value: 1
+      }),
+      checkbox: new CheckboxField({
+        label: 'Check Box',
+        inline: true,
+        options: [
+          {label: 'Hello 1', value: 1},
+          {label: 'Hello 2', value: 2},
+          {label: 'hello 3', value: 3}
+        ],
+        value: [1, 2]
       })
     }
   })

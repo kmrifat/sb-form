@@ -32,6 +32,7 @@ import FileField from "./fields/FileField.vue";
 import DateField from "./fields/DateField.vue";
 import MultiSelectField from "./fields/MultiSelectField.vue";
 import HiddenField from "./fields/HiddenField.vue";
+import CheckboxField from "./fields/CheckboxField.vue";
 import toastr from 'toastr';
 
 
@@ -45,7 +46,8 @@ export default {
     multiselect_field: MultiSelectField,
     file_field: FileField,
     date_field: DateField,
-    hidden_field: HiddenField
+    hidden_field: HiddenField,
+    checkbox_field: CheckboxField
   },
   props: {
     title: String,

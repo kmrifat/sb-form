@@ -3,10 +3,11 @@ import PasswordField from "./PasswordField";
 import EmailField from "./EmailField";
 import FileFiled from "./FileField";
 import SelectField from "./SelectField";
-import HiddenFields from "./HiddenFields";
+import HiddenField from "./HiddenField";
 import TextField from "./TextField";
 import DateField from "./DateField";
 import MultiSelectField from "./MultiSelectField";
+import CheckboxField from "./CheckboxField";
 
 export {
     StringField,
@@ -15,7 +16,8 @@ export {
     FileFiled,
     SelectField,
     MultiSelectField,
-    HiddenFields,
+    HiddenField,
     TextField,
-    DateField
+    DateField,
+    CheckboxField
 }

@@ -3,15 +3,15 @@
 </template>
 
 <script>
-import {HiddenFields} from "../models";
+import {HiddenField} from "../models";
 
 export default {
   name: "HiddenField",
   props: {
     fieldInfo: {
-      type: HiddenFields,
+      type: HiddenField,
       required: true,
-      default: new HiddenFields()
+      default: new HiddenField()
     }
   }
 }
