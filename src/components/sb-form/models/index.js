@@ -8,6 +8,7 @@ import TextField from "./TextField";
 import DateField from "./DateField";
 import MultiSelectField from "./MultiSelectField";
 import CheckboxField from "./CheckboxField";
+import {CustomField, VueComponentProp} from "./CustomField";
 
 export {
     StringField,
@@ -19,5 +20,7 @@ export {
     HiddenField,
     TextField,
     DateField,
-    CheckboxField
+    CheckboxField,
+    CustomField,
+    VueComponentProp
 }

@@ -8,13 +8,14 @@
 import SBForm from "../components/sb-form/SBForm.vue";
 import apiService from "../services/apiService";
 import {
-  CheckboxField,
+  CheckboxField, CustomField,
   EmailField,
   FileFiled,
   PasswordField,
   SelectField,
   StringField
 } from "../components/sb-form/models";
+import Rifat from "./Rifat.vue";
 
 export default {
   name: "FormView",
@@ -49,6 +50,10 @@ export default {
         option: {
           value: 'active', label: 'Active'
         }
+      }),
+      rifat: new CustomField({
+        component: Rifat,
+        value: 'Rifat'
       })
     }
   })

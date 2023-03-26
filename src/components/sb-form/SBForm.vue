@@ -34,6 +34,7 @@ import MultiSelectField from "./fields/MultiSelectField.vue";
 import HiddenField from "./fields/HiddenField.vue";
 import CheckboxField from "./fields/CheckboxField.vue";
 import toastr from 'toastr';
+import CustomField from "./fields/CustomField.vue";
 
 
 export default {
@@ -47,7 +48,8 @@ export default {
     file_field: FileField,
     date_field: DateField,
     hidden_field: HiddenField,
-    checkbox_field: CheckboxField
+    checkbox_field: CheckboxField,
+    custom_field: CustomField
   },
   props: {
     title: String,
@@ -166,6 +168,7 @@ export default {
      * This models will need to submit the form
      */
     setModelValue() {
+      console.log('here')
       try {
         Object.entries(this.fields).map((value) => {
           this.models[value[0]] = value[1].value ? value[1].value : ''
