@@ -1,5 +1,6 @@
 import SbForm from "./components/sb-form/SBForm.vue";
 
+export * from './components/sb-form/models/index'
 
 export {default as Dropzone} from './components/dropzone/Dropzone'
 export {default as FileField} from './components/sb-form/fields/FileField'
