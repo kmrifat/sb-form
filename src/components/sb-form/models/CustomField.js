@@ -30,6 +30,7 @@ class CustomField extends BaseField {
         super(props)
         this.component = props.component
         this.type = 'custom_field'
+        this.title = props.title;
     }
 
 }

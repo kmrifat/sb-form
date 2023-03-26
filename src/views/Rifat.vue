@@ -1,19 +1,33 @@
+<!-- MultiSelect.vue -->
 <template>
-  <input
-      type="text"
-      :value="title"
-      @input="$emit('update:title', $event.target.value)"
-  />
+  <div>
+    <select class="form-control" multiple v-model="selectedValues">
+      <option v-for="(option, index) in ['asdf','rrr','6789']"
+              :key="index"
+              :value="option.value">
+        {{ option}}
+      </option>
+    </select>
+  </div>
 </template>
 
 <script>
 export default {
-  name: "Rifat",
-  props: ['title'],
-  emits: ['update:title']
-}
+  props: {
+    value: {
+      type: Array,
+      default: () => [],
+    }
+  },
+  computed: {
+    selectedValues: {
+      get() {
+        return this.value;
+      },
+      set(newValue) {
+        this.$emit('update:value', newValue);
+      },
+    },
+  },
+};
 </script>
-
-<style scoped>
-
-</style>

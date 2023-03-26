@@ -1,6 +1,9 @@
 <template>
   <div :class="fieldInfo.col ? 'col-'+fieldInfo.col : 'col-12'">
-    <component :is="fieldInfo.component" v-model="model"></component>
+    <component :is="fieldInfo.component"
+               :value="modelValue"
+               @input="$emit('update:modelValue', $event.target.value)"
+    ></component>
   </div>
 </template>
 
@@ -10,10 +13,7 @@ import {CustomField, VueComponentProp} from "../models";
 export default {
   name: "CustomField",
   props: {
-    modelValue: {
-      type: [String, Array],
-      default: ''
-    },
+    modelValue: {},
     fieldInfo: {
       type: CustomField,
       required: true,
@@ -23,16 +23,15 @@ export default {
       },
     }
   },
+  emits: ['update:modelValue'],
   computed: {
     model: {
       get() {
-        return this.fieldInfo.value;
+        return this.modelValue;
       },
       set(newValue) {
-        this.$emit('update:fieldInfo.value', new CustomField({
-          component: this.fieldInfo.component,
-          value: newValue,
-        }));
+        console.log('ads')
+        this.$emit('update:myProp', newValue);
       },
     },
   },
