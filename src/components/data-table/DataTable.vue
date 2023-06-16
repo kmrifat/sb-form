@@ -6,46 +6,44 @@
       </slot>
     </div>
     <div class="card-body" v-if="!loading">
-      <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
-        <form @submit.prevent="fetchData" class="dataTable-top">
-          <div class="dataTable-dropdown" v-if="per_page">
-            <label>
-              <select v-model="per_page" class="form-select" @change="fetchData">
-                <option value="20">20</option>
-                <option value="30">30</option>
-                <option value="40">40</option>
-                <option value="50">50</option>
-              </select>
-              entries per page
-            </label>
-          </div>
-          <div class="dataTable-search">
-            <input class="dataTable-input" v-model="q" placeholder="Search..." type="text">
-          </div>
-        </form>
-        <div class="dataTable-container">
-          <table id="datatablesSimple" class="dataTable-table">
-            <thead>
-            <tr>
-              <th>#</th>
-              <th v-for="column in columns">
-                <a href="#" class="dataTable-sorter">{{ column.label }}</a>
-              </th>
-            </tr>
-            </thead>
-
-            <tbody>
-            <tr v-for="(value, index) in data" :key="index">
-              <td>{{ getRowNumber(index) }}.</td>
-              <td v-for="column in columns">
-                <slot :name="column.field" :item="value">{{ value[column.field] }}</slot>
-              </td>
-            </tr>
-
-            </tbody>
-          </table>
+      <form @submit.prevent="fetchData" class="d-flex justify-content-between sb-datatable">
+        <div class="per-page-select">
+          <label>
+            <select v-model="per_page" class="form-select" @change="fetchData">
+              <option value="20">20</option>
+              <option value="30">30</option>
+              <option value="40">40</option>
+              <option value="50">50</option>
+            </select>
+            entries per page
+          </label>
         </div>
-        <div class="dataTable-bottom">
+        <div class="top-search">
+          <input class="form-control" v-model="q" placeholder="Search..." type="text">
+        </div>
+      </form>
+      <div class="table-responsive">
+        <table class="table align-middle">
+          <thead>
+          <tr>
+            <th>#</th>
+            <th v-for="column in columns">
+              <a href="#" class="dataTable-sorter">{{ column.label }}</a>
+            </th>
+          </tr>
+          </thead>
+
+          <tbody>
+          <tr v-for="(value, index) in data" :key="index">
+            <td>{{ getRowNumber(index) }}.</td>
+            <td v-for="column in columns">
+              <slot :name="column.field" :item="value">{{ value[column.field] }}</slot>
+            </td>
+          </tr>
+
+          </tbody>
+        </table>
+        <div class="d-flex justify-content-between table-bottom">
           <div class="dataTable-info">{{ showing }}</div>
 
           <Pagination :data="paginationData" :limit="3" align="right" @pagination-change-page="getResults"/>
@@ -124,6 +122,7 @@ export default {
         })
       }
     },
+
     fetchData() {
       this.loading = true
       let searchable_column = this.columns.filter(element => element.searchable).map(element => element.field)

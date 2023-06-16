@@ -11,9 +11,13 @@ class EmailField extends BaseField {
     /**
      * @param {EmailFieldProps} [props]
      */
-    constructor(props = {}) {
+    constructor(props = {label, placeholder, col, error, value}) {
         super(props);
         this.type = 'string'
+        this.placeholder = placeholder || ''
+        this.col = col
+        this.error = error || null
+        this.value = value
     }
 }
 

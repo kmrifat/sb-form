@@ -13,7 +13,7 @@ import {
   FileFiled,
   PasswordField,
   SelectField,
-  StringField
+  StringField, TextField
 } from "../components/sb-form/models";
 import Rifat from "./Rifat.vue";
 

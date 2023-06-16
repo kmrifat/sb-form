@@ -60,7 +60,7 @@ export default {
       default: true
     },
     callBack: {
-      type: String,
+      type: Function,
       required: false
     },
     method: {
@@ -112,7 +112,8 @@ export default {
       // console.log(this.axios().baseURL)
       await this.axios(this.config).then(response => {
         if (this.callBack) {
-          this.$parent[this.callBack](response.data);
+          this.callBack()
+          // this.$parent[this.callBack](response.data);
         }
         if (this.resetForm) {
           this.setModelValue()

@@ -1,5 +1,5 @@
 <template>
-  <DataTable title="Hello Table" url="/" :columns="columns" :axios="axios">
+  <DataTable title="Hello Table" url="/auth-history" :columns="columns" :axios="axios">
 
   </DataTable>
 </template>
