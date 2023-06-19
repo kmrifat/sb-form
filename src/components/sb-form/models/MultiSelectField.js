@@ -11,7 +11,7 @@ import BaseField from "./base";
  * @property {string} [fetchUrl]
  * @property {{value: string | number, default: string, help: string, display: string}} [config]
  */
-class MultiselectField extends BaseField {
+class MultiSelectField extends BaseField {
     /**
      * @param {MultiSelectProps} [props]
      */
@@ -29,4 +29,4 @@ class MultiselectField extends BaseField {
     }
 }
 
-export default MultiselectField
+export default MultiSelectField
