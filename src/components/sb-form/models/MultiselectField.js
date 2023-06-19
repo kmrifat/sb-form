@@ -15,13 +15,17 @@ class MultiselectField extends BaseField {
     /**
      * @param {MultiSelectProps} [props]
      */
-    constructor(props = {}) {
+    constructor(props = {label, placeholder, col, error, options, axios, fetchUrl, config}) {
         super(props);
-        this.options = props.options || []
-        this.fetchUrl = props.fetchUrl || null
-        this.axios = props.axios
-        this.config = props.config || {}
         this.type = 'multiselect_field'
+        this.label = label
+        this.placeholder = placeholder
+        this.col = col
+        this.error = error
+        this.options = options || []
+        this.fetchUrl = fetchUrl || null
+        this.axios = axios
+        this.config = config || {}
     }
 }
 

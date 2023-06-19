@@ -22,13 +22,19 @@ class CheckboxField extends BaseField {
     /**
      * @param {CheckboxFieldProps} [props]
      */
-    constructor(props = {}) {
+    constructor(props = {label, placeholder, col, error, value, required, inline, options, option}) {
         super(props);
-        this.inline = props.inline ?? true
-        this.options = props.options
-        this.option = props.option
-        this.isMultiple = props.options ? true : false
         this.type = 'checkbox_field'
+        this.label = label
+        this.placeholder = placeholder
+        this.col = col
+        this.error = error
+        this.value = value
+        this.required = required
+        this.inline = inline ?? true
+        this.options = options
+        this.option = option
+        this.isMultiple = options ? true : false
     }
 }
 
