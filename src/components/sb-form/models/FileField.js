@@ -11,9 +11,13 @@ class FileFiled extends BaseField {
     /**
      * @param {FileFieldProps} [props]
      */
-    constructor(props = {}) {
+    constructor(props = {label, placeholder, col, error}) {
         super(props);
         this.type = 'file_field'
+        this.label = label
+        this.placeholder = placeholder
+        this.col = col
+        this.error = error
     }
 }
 
