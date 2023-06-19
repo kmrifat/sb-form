@@ -19,11 +19,8 @@ import BaseField from "./base";
  * @property {Option} [option]
  */
 class CheckboxField extends BaseField {
-    /**
-     * @param {CheckboxFieldProps} [props]
-     */
-    constructor(props = {label, placeholder, col, error, value, required, inline, options, option}) {
-        super(props);
+    constructor({label, placeholder, col, error, value, required, inline, options, option} = {}) {
+        super();
         this.type = 'checkbox_field'
         this.label = label
         this.placeholder = placeholder
@@ -34,7 +31,7 @@ class CheckboxField extends BaseField {
         this.inline = inline ?? true
         this.options = options
         this.option = option
-        this.isMultiple = options ? true : false
+        this.isMultiple = !!options
     }
 }
 

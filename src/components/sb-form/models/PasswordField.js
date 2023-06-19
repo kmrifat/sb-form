@@ -1,18 +1,15 @@
 import BaseField from "./base";
 
 /**
- * @typedef {Object} PasswordFieldProps
  * @property {string} [label]
  * @property {string} [placeholder]
  * @property {string} [col]
  * @property {null|array} [error]
  */
 class PasswordField extends BaseField {
-    /**
-     * @param {PasswordFieldProps} [props]
-     */
-    constructor(props = {label, placeholder, col, error}) {
-        super(props);
+
+    constructor({label, placeholder, col, error, value} = {}) {
+        super();
         this.type = 'password'
         this.label = label
         this.placeholder = placeholder

@@ -12,8 +12,8 @@ class DateField extends BaseField {
      *
      * @param {DateFieldProps} [props]
      */
-    constructor(props = {label, placeholder, col, error}) {
-        super(props);
+    constructor({label, placeholder, col, error, value} = {}) {
+        super();
         this.type = 'date_field'
         this.label = label
         this.placeholder = placeholder

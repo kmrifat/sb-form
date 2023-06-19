@@ -8,16 +8,12 @@
  * @property {boolean} [required]
  */
 class BaseField {
-    /**
-     *
-     * @param {BaseFiledProps} [props]
-     */
-    constructor(props = {}) {
-        this.label = props.label || '';
-        this.placeholder = props.placeholder || '';
-        this.col = props.col || null
-        this.error = props.error || null
-        this.value = props.value
+    constructor({label, placeholder, col, error, value} = {}) {
+        this.label = label || '';
+        this.placeholder = placeholder || '';
+        this.col = col || null
+        this.error = error || null
+        this.value = value
     }
 }
 

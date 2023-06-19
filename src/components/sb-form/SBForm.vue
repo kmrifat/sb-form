@@ -109,16 +109,14 @@ export default {
      * and the form reset can be enable or disable by the @resetForm props
      */
     async submit() {
-      // console.log(this.axios().baseURL)
       await this.axios(this.config).then(response => {
         if (this.callBack) {
-          this.callBack()
+          this.callBack(response)
           // this.$parent[this.callBack](response.data);
         }
         if (this.resetForm) {
           this.setModelValue()
         }
-        console.log(response)
         toastr.success(response.data.message, `${response.status} ${response.statusText}`)
       }).catch(error => {
         try {
@@ -139,11 +137,11 @@ export default {
       })
     },
     setValidationError(error_data) {
-      console.log(error_data)
+      // console.error(error_data)
       for (let error in error_data) {
         this.fields[error]['error'] = error_data[error]
       }
-      console.log(this.fields)
+      // console.log(this.fields)
     },
 
     /**

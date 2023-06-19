@@ -11,13 +11,14 @@ class StringField extends BaseField {
     /**
      * @param {StringFieldProps} [props]
      */
-    constructor(props = {label, placeholder, col, error}) {
-        super(props);
+    constructor({label, placeholder, col, error, value} = {}) {
+        super();
         this.type = 'string'
         this.label = label
         this.placeholder = placeholder
         this.col = col
         this.error = error
+        this.value = value
     }
 }
 

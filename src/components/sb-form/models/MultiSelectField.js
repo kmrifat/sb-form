@@ -15,8 +15,8 @@ class MultiSelectField extends BaseField {
     /**
      * @param {MultiSelectProps} [props]
      */
-    constructor(props = {label, placeholder, col, error, options, axios, fetchUrl, config}) {
-        super(props);
+    constructor({label, placeholder, col, error, options, axios, fetchUrl, config} = {}) {
+        super();
         this.type = 'multiselect_field'
         this.label = label
         this.placeholder = placeholder

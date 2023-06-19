@@ -12,8 +12,8 @@ class HiddenField extends BaseField {
     /**
      * @param {HiddenFieldsProps} [props]
      */
-    constructor(props={label, placeholder, col, error, value}) {
-        super(props);
+    constructor({label, placeholder, col, error, value} = {}) {
+        super();
         this.type = 'hidden_field'
         this.label = label
         this.placeholder = placeholder

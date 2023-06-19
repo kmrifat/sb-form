@@ -16,8 +16,8 @@ class SelectField extends BaseField {
     /**
      * @param {SelectFieldProps} [props]
      */
-    constructor(props = {label, placeholder, col, error, options, axios, fetchUrl, config}) {
-        super(props);
+    constructor({label, placeholder, col, error, options, axios, fetchUrl, config} = {}) {
+        super();
         this.type = 'select_field'
         this.label = label
         this.placeholder = placeholder

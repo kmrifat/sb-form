@@ -9,8 +9,8 @@ import BaseField from "./base";
  * @property {string} [value]
  */
 class TextField extends BaseField {
-    constructor(props = {label, placeholder, col, error, value}) {
-        super(props);
+    constructor({label, placeholder, col, error, value} = {}) {
+        super();
         this.type = 'text_field'
         this.label = label
         this.placeholder = placeholder

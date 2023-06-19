@@ -8,16 +8,14 @@ import BaseField from "./base";
  * @property {null|array} [error]
  */
 class EmailField extends BaseField {
-    /**
-     * @param {EmailFieldProps} [props]
-     */
-    constructor(props = {label, placeholder, col, error, value}) {
-        super(props);
+    constructor({label, placeholder, col, error, value} = {}) {
+        super()
         this.type = 'string'
         this.placeholder = placeholder || ''
         this.col = col
         this.error = error || null
         this.value = value
+        this.label = label
     }
 }
 
