@@ -21,14 +21,14 @@
       <div class="form-check"
            :class="{'form-check-inline': fieldInfo.inline === true}">
         <input class="form-check-input"
-               :id="`${fieldInfo.option.value}`"
-               :value="fieldInfo.option.value"
-               :checked="isSelected(fieldInfo.option.value)"
-               @change="updateSingleSelected($event.target.value)"
+               :id="`${fieldInfo.option?.value}`"
+               :value="fieldInfo.option?.value"
+               :checked="isSelected(fieldInfo.option?.value)"
+               @change="updateSingleSelected($event.target?.value)"
                type="checkbox">
         <label class="form-check-label"
-               :for="`${fieldInfo.option.value}`">
-          {{ fieldInfo.option.label }}
+               :for="`${fieldInfo.option?.value}`">
+          {{ fieldInfo.option?.label }}
         </label>
       </div>
     </template>

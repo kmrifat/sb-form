@@ -72,7 +72,7 @@ export default {
         'delete'
       ]
     },
-    ajax: {
+    fetchUrl: {
       type: String,
       required: false
     },
@@ -98,7 +98,7 @@ export default {
   mounted() {
     this.setModelValue()
     // Fetch data from ajax if ajax props is not null
-    if (this.ajax) {
+    if (this.fetchUrl) {
       this.fetchFromAjax()
     }
   },
@@ -151,7 +151,7 @@ export default {
      * @returns {Promise<void>}
      */
     async fetchFromAjax() {
-      await this.axios.get(this.ajax).then(response => {
+      await this.axios.get(this.fetchUrl).then(response => {
         for (let field in this.fields) {
           this.fields[field].value = response.data[field]
         }

@@ -138,6 +138,11 @@ export default {
           this.per_page = null
           this.showing = `Showing ${response.data.length}`
         }
+
+        if ('meta' in response) {
+          this.per_page = response.meta.per_page
+          this.showing = `Showing ${response.meta.from} to ${response.meta.to} of ${response.meta.total}`
+        }
       }).catch(error => {
         toastr.error(error.response.data.message, `${error.response.status} ${error.response.statusText}`)
         console.error(error.response)

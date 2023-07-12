@@ -3,7 +3,7 @@ import store from '../store/index'
 // import app from '../main'
 
 const instance = axios.create({
-    baseURL: 'http://dr-assistant.test/api',
+    baseURL: 'http://localhost:8000/api',
     headers: {
         Authorization: `Bearer 58|6o1pfE7oDdJBolpaZeTVY8oNdddB3WPeITm4YD9D`
     }

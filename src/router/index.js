@@ -6,6 +6,10 @@ const routes = [
         component: () => import('../views/FormView')
     },
     {
+        path: "/edit-form",
+        component: () => import('../views/EditFormView')
+    },
+    {
         path: '/data-table',
         component: () => import('../views/TableView'),
         name: 'dataTable',
