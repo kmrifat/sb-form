@@ -23,7 +23,7 @@
         </div>
       </form>
       <div class="table-responsive">
-        <table class="table align-middle">
+        <table class="table" :class="tableClasses">
           <thead>
           <tr>
             <th>#</th>
@@ -80,6 +80,10 @@ export default {
     axios: {
       type: Function,
       required: true
+    },
+    tableClasses: {
+      type: String,
+      default: 'align-middle'
     }
   },
   components: {

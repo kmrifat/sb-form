@@ -3,16 +3,16 @@ import store from '../store/index'
 // import app from '../main'
 
 const instance = axios.create({
-    baseURL: 'http://localhost:8000/api',
+    baseURL: 'http://dr-assistant.test/api',
     headers: {
-        Authorization: `Bearer 58|6o1pfE7oDdJBolpaZeTVY8oNdddB3WPeITm4YD9D`
+        Authorization: `Bearer 1|hseygNX0xzkIZnhG7W7jW6Z84JxF6Sojr8CeEB0u`
     }
 })
 
 instance.interceptors.request.use(
     (config) => {
         if (store.state.auth_token) {
-            config.headers['Authorization'] = `Bearer 58|6o1pfE7oDdJBolpaZeTVY8oNdddB3WPeITm4YD9D`
+            config.headers['Authorization'] = `Bearer 1|hseygNX0xzkIZnhG7W7jW6Z84JxF6Sojr8CeEB0u`
         }
         return config
     }

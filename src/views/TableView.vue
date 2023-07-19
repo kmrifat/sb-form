@@ -1,5 +1,5 @@
 <template>
-  <DataTable title="Hello Table" url="/auth-history" :columns="columns" :axios="axios">
+  <DataTable title="Hello Table" url="/doctor" table-classes="table-bordered" :columns="columns" :axios="axios">
 
   </DataTable>
 </template>
@@ -16,7 +16,7 @@ export default {
   data: () => ({
     axios: apiService,
     columns: [
-      {label: 'Name', field: 'name', searchable: true}
+      {label: 'Name', field: 'title', searchable: true}
     ]
   })
 }
