@@ -127,22 +127,18 @@ export default {
       this.loading = true
       let searchable_column = this.columns.filter(element => element.searchable).map(element => element.field)
       console.log(searchable_column)
-      this.axios.get(`${this.url}?searchable=${searchable_column}&q=${this.q}&limit=${this.per_page}&page=${this.page}`).then(response => {
-        if ('data' in response.data) {
-          this.paginationData = response.data
-          this.data = response.data.data
-          this.per_page = response.data.per_page
-          this.showing = `Showing ${response.data.from} to ${response.data.to} of ${response.data.total}`
+      this.axios.get(`${this.url}?searchable=${searchable_column}&q=${this.q}&limit=${this.per_page}&page=${this.page}`).then(({data}) => {
+        if ('data' in data) {
+          this.data = data.data;
+          const paginationData = 'meta' in data ? data.meta : data;
+          this.per_page = paginationData.per_page;
+          this.paginationData = paginationData;
+          this.showing = `Showing from ${paginationData.from || (this.data.length > 0 ? 1 : 0)} to ${paginationData.to || this.data.length} out of ${paginationData.total || this.data.length}`;
         } else {
-          this.data = response.data
-          this.per_page = null
-          this.showing = `Showing ${response.data.length}`
+          this.data = data;
+          this.showing = `Showing from ${this.data.length > 0 ? 1 : 0} to ${this.data.length} out of ${this.data.length}`;
         }
 
-        if ('meta' in response) {
-          this.per_page = response.meta.per_page
-          this.showing = `Showing ${response.meta.from} to ${response.meta.to} of ${response.meta.total}`
-        }
       }).catch(error => {
         toastr.error(error.response.data.message, `${error.response.status} ${error.response.statusText}`)
         console.error(error.response)
