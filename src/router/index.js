@@ -6,8 +6,7 @@ const routes = [
         component: () => import('../views/FormView')
     },
     {
-        name: "edit-form",
-        path: "/edit-form/:id",
+        path: "/edit-form",
         component: () => import('../views/EditFormView')
     },
     {
