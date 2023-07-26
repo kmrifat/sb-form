@@ -151,9 +151,15 @@ export default {
      * @returns {Promise<void>}
      */
     async fetchFromAjax() {
-      await this.axios.get(this.fetchUrl).then(response => {
+      await this.axios.get(this.fetchUrl).then(({data}) => {
+        let resData
+        if ('data' in data) {
+          resData = data.data;
+        }else {
+          resData  = data
+        }
         for (let field in this.fields) {
-          this.fields[field].value = response.data[field]
+          this.fields[field].value = resData[field]
         }
       }).finally(() => {
         this.setModelValue()
