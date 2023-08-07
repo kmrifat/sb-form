@@ -26,8 +26,7 @@ export default {
   name: "SelectField",
   props: {
     axios: {
-      type: Function,
-      required: true
+      type: Function
     },
     modelValue: {},
     fieldInfo: {
