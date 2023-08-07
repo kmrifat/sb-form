@@ -57,7 +57,7 @@
       </div>
 
       <div v-else>
-        <Dropzone call_back="addFile" axios="axios"/>
+        <Dropzone call_back="addFile" :axios="axios"/>
       </div>
     </div>
 
@@ -73,7 +73,13 @@ import {Offcanvas} from "bootstrap"
 
 export default {
   name: "FileField",
-  props: ['modelValue', 'fieldInfo', 'axios'],
+  props: {
+    axios: {
+      type: Function
+    },
+    modelValue: {},
+    fieldInfo: {}
+  },
   emits: ['update:modelValue'],
   components: {
     Dropzone

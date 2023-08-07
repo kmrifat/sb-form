@@ -69,7 +69,7 @@ export default {
         url: '/file-upload',
         headers: {
           'Content-Type': 'application/octet-stream',
-          'Authorization': `Bearer Token` // TODO: token must be fixed
+          // 'Authorization': `Bearer Token` // TODO: token must be fixed
         },
         onUploadProgress: event => {
           console.log(this.chunks[0].size)
