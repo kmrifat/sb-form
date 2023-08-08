@@ -37,7 +37,7 @@
           <tr v-for="(value, index) in data" :key="index">
             <td>{{ getRowNumber(index) }}.</td>
             <td v-for="column in columns">
-              <slot :name="column.field" :item="value">{{ value[column.field] }}</slot>
+              <slot :name="column.field" :item="value">{{ getValue(value, column.field) }}</slot>
             </td>
           </tr>
 
@@ -101,6 +101,19 @@ export default {
     }
   },
   methods: {
+    getValue(item, field) {
+      const fields = field.split('.'); // Split the dot-separated field into an array
+      let value = item;
+      for (const f of fields) {
+        if (value.hasOwnProperty(f)) {
+          value = value[f];
+        } else {
+          value = '';
+          break;
+        }
+      }
+      return value;
+    },
     getRowNumber(index) {
       return (this.page - 1) * this.per_page + index + 1
     },
