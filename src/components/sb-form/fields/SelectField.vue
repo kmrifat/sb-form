@@ -24,8 +24,10 @@ import SelectField from "../models/SelectField";
 
 export default {
   name: "SelectField",
-  // props: ['modelValue', 'fieldInfo', 'axios'],
   props: {
+    axios: {
+      type: Function
+    },
     modelValue: {},
     fieldInfo: {
       type: SelectField,
@@ -39,8 +41,8 @@ export default {
       this.$emit('update:modelValue', $event.target.value)
     },
     fetchOptionData() {
-      this.axios.get(this.fieldInfo.fetchUrl).then(response => {
-        this.fieldInfo.options = response.data
+      this.axios.get(this.fieldInfo.fetchUrl).then(({data}) => {
+        this.fieldInfo.options = 'data' in data ? data.data : data;
       })
     },
   },
