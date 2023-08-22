@@ -10,7 +10,7 @@ import apiService from "../services/apiService";
 import {
   CheckboxField, CustomField,
   EmailField,
-  FileFiled,
+  MultiFileFiled,
   PasswordField,
   SelectField,
   StringField, TextField
@@ -28,7 +28,7 @@ export default {
       name: new StringField({label: 'Full Name', value: 'Rifat'}),
       email: new EmailField({label: 'Email Address'}),
       password: new PasswordField({label: 'Password'}),
-      photo: new FileFiled({label: 'Photo'}),
+      multi_photo: new MultiFileFiled({label: 'Multi Photo'}),
       gender: new SelectField({
         label: 'Gender',
         options: [{id: 1, name: 'Rifat'}],
