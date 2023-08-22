@@ -1,20 +1,22 @@
 <template>
   <div class="col-12 file-filed">
     <label class="form-label mt-3 mb-0">{{ fieldInfo.label }} {{ fieldInfo.required ? '*' : '' }}</label>
-    <div class="card shadow-none mt-3" @click="toggleModal">
+    <div class="card shadow-none mt-3">
       <div class="card-body p-1" v-if="selectedFiles.length">
-        <template v-for="selectedFile in selectedFiles">
-          <div class="preview" :style="`background-image:url(${selectedFile})`"></div>
-        </template>
+        <div class="image-container">
+          <div v-for="(file, index) in selectedFiles" :key="index" class="image-item border">
+            <div v-if="isImageFile(file.type)" class="preview" :style="'background-image:url('+file.path+')'"></div>
+            <h3 v-else class="file-extension my-auto">{{ getFileExtension(file.path) }}</h3>
+            <button type="button" @click="removeSelectedFile(index)" class="remove-btn btn btn-danger btn-sm rounded-0">Remove</button>
+          </div>
+        </div>
       </div>
 
-      <div class="card-body" v-else>
+      <div class="card-body" @click="toggleModal">
         <i class="fas fa-cloud-upload fa-6x"></i>
-        <p class="card-text">Click to upload or select file from File Manager.</p>
+        <p class="card-text">Click to upload or select files from File Manager.</p>
       </div>
     </div>
-    <button class="btn btn-danger btn-sm rounded-0 reset-field" @click="removeSelectedFile" v-if="modelValue">Remove
-    </button>
     <div :class="fieldInfo.error ? 'is-invalid': ''"></div>
     <div class="invalid-feedback">
       {{ fieldInfo.error ? fieldInfo.error[0] : '' }}
@@ -52,7 +54,7 @@
       </form>
       <div class="d-flex align-content-start flex-wrap" v-if="show_files">
         <div v-for="file in file_list" @click="toggleFileSelection(file)" class="card file-card m-2"
-             :class="{'selected': modelValue === file.path}">
+             :class="{'selected': isFileSelected(file.id)}">
           <img v-if="isImageFile(file.type)" :src="file.thumbnail" class="img-fluid" :alt="file.name">
           <h3 v-else class="file-extension my-auto">{{ getFileExtension(file.name) }}</h3>
           <p class="file-name">{{ file.name }}</p>
@@ -87,7 +89,9 @@ export default {
     axios: {
       type: Function
     },
-    modelValue: {},
+    'modelValue': {
+      type: Array
+    },
     fieldInfo: {}
   },
   emits: ['update:modelValue'],
@@ -106,15 +110,16 @@ export default {
   methods: {
     toggleFileSelection(file) {
       if (this.isCtrlPressed()) {
-        this.selectedFiles.includes(file.path)
-            ? this.selectedFiles = this.selectedFiles.filter(path => path !== file.path)
-            : this.selectedFiles.push(file.path);
+        this.selectedFiles.includes(file)
+            ? this.selectedFiles = this.selectedFiles.filter(path => path !== file)
+            : this.selectedFiles.push(file);
       } else {
-        this.selectedFiles = [file.path];
+        this.selectedFiles = [file];
       }
+      this.$emit('update:modelValue', this.selectedFiles)
     },
-    isFileSelected(filePath) {
-      return this.selectedFiles.includes(filePath);
+    isFileSelected(id) {
+      return this.selectedFiles.some(file => file.id === id);
     },
     isCtrlPressed() {
       return window.event.ctrlKey || window.event.metaKey; // metaKey for Command key on macOS
@@ -148,8 +153,9 @@ export default {
         })
       }
     },
-    removeSelectedFile() {
-      this.$emit('update:modelValue', null)
+    removeSelectedFile(index) {
+      this.selectedFiles = this.selectedFiles.filter((_, i) => i !== index);
+      this.$emit('update:modelValue', this.selectedFiles)
     },
     addFile(file_manager) {
       this.file_list.push(file_manager);
@@ -172,16 +178,35 @@ export default {
 
 .file-filed {
   .card {
-    width: 12rem;
-    height: 12rem;
+    width: 100%;
+    height: auto;
 
     .card-body {
+      .image-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .image-item {
+        position: relative;
+        width: 100px; /* Adjust width as needed */
+        height: 100px; /* Adjust height as needed */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
       .preview {
-        height: 11.4rem;
+        height: 80px;
         width: 100%;
         background-repeat: no-repeat;
         background-origin: inherit;
         background-size: cover;
+      }
+
+      .remove-btn {
+        margin-top: 5px;
       }
     }
 
@@ -192,17 +217,8 @@ export default {
 
   margin-bottom: 15px;
   position: relative;
-
-  .reset-field {
-    position: absolute;
-    bottom: 0;
-  }
-
-  .file-extension {
-    display: flex;
-    justify-content: center;
-  }
 }
+
 
 .file-card {
   height: 10rem;
