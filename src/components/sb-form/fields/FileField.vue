@@ -3,7 +3,8 @@
     <label class="form-label mt-3 mb-0">{{ fieldInfo.label }} {{ fieldInfo.required ? '*' : '' }}</label>
     <div class="card shadow-none mt-3" @click="toggleModal">
       <div class="card-body p-1" v-if="modelValue">
-        <div class="preview" :style="'background-image:url('+modelValue+')'"></div>
+        <div v-if="isImageFile(file_type)" class="preview" :style="'background-image:url('+modelValue+')'"></div>
+        <h3 v-else class="file-extension my-auto">{{ getFileExtension(modelValue) }}</h3>
       </div>
 
       <div class="card-body" v-else>
@@ -49,9 +50,10 @@
         </div>
       </form>
       <div class="d-flex align-content-start flex-wrap" v-if="show_files">
-        <div v-for="file in file_list" @click="selectFile(file)" class="card file-card m-2 img-wrap"
-             :class="modelValue == file.path ? 'selected' : ''">
-          <img :src="file.thumbnail" class="img-fluid" alt="">
+        <div v-for="file in file_list" @click="selectFile(file)" class="card file-card m-2"
+             :class="{'selected': modelValue === file.path}">
+          <img v-if="isImageFile(file.type)" :src="file.thumbnail" class="img-fluid" :alt="file.name">
+          <h3 v-else class="file-extension my-auto">{{ getFileExtension(file.name) }}</h3>
           <p class="file-name">{{ file.name }}</p>
           <span @click.stop="removeFile(file.id)" class="close btn btn-danger btn-sm close">&times;</span>
         </div>
@@ -95,16 +97,24 @@ export default {
     return {
       search: '',
       show_files: true,
+      file_type: '',
       file_list: []
     }
   },
   methods: {
+    isImageFile(type) {
+      return type.startsWith('image/');
+    },
+    getFileExtension(filename) {
+      return filename.split('.').pop().toUpperCase();
+    },
     toggleModal() {
       let fileOffCanvas = new Offcanvas(document.getElementById('fileOffCanvas' + this.fieldInfo.label.replace(/ /g, '')))
       fileOffCanvas.toggle()
     },
     selectFile(file) {
-      this.$emit('update:modelValue', file.thumbnail)
+      this.file_type = file.type
+      this.$emit('update:modelValue', file.path)
     },
     removeFile(id) {
       const result = confirm("Are you sure you want to delete this item?");
@@ -142,16 +152,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.img-wrap {
-  position: relative;
-}
-
-.img-wrap .close {
-  position: absolute;
-  top: 2px;
-  right: 2px;
-  z-index: 100;
-}
 
 .file-filed {
   .card {
@@ -180,6 +180,11 @@ export default {
     position: absolute;
     bottom: 0;
   }
+
+  .file-extension {
+    display: flex;
+    justify-content: center;
+  }
 }
 
 .file-card {
@@ -201,6 +206,18 @@ export default {
 
   &.selected {
     border: 4px solid red;
+  }
+
+  .close {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    z-index: 100;
+  }
+
+  .file-extension {
+    display: flex;
+    justify-content: center;
   }
 }
 
