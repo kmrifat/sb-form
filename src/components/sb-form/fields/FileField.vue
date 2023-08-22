@@ -42,6 +42,12 @@
     </div>
 
     <div class="offcanvas-body">
+      <form @submit.prevent="getFiles">
+        <div class="input-group mb-3">
+          <input v-model="search" type="text" class="form-control" placeholder="Search...">
+          <button class="btn btn-secondary" type="submit" id="button-addon2">Search</button>
+        </div>
+      </form>
       <div class="d-flex align-content-start flex-wrap" v-if="show_files">
         <div v-for="file in file_list" @click="selectFile(file)" class="card file-card m-2 img-wrap"
              :class="modelValue == file.path ? 'selected' : ''">
@@ -87,6 +93,7 @@ export default {
   },
   data() {
     return {
+      search: '',
       show_files: true,
       file_list: []
     }
@@ -119,14 +126,17 @@ export default {
     },
     addFile(file_manager) {
       this.file_list.push(file_manager);
+    },
+    getFiles() {
+      this.axios.get('/files', {params: {search: this.search}}).then(({data}) => {
+        this.file_list = data
+      }).catch(error => {
+        throw error
+      })
     }
   },
   mounted() {
-    this.axios.get('/files').then(({data}) => {
-      this.file_list = data
-    }).catch(error => {
-      throw error
-    })
+    this.getFiles();
   }
 }
 </script>
