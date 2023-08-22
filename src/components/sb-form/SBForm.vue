@@ -29,6 +29,7 @@ import PasswordField from "./fields/PasswordField.vue";
 import TextField from "./fields/TextField.vue";
 import SelectField from "./fields/SelectField.vue";
 import FileField from "./fields/FileField.vue";
+import MultiFileFiled from "./fields/MultiFileFiled.vue";
 import DateField from "./fields/DateField.vue";
 import MultiSelectField from "./fields/MultiSelectField.vue";
 import HiddenField from "./fields/HiddenField.vue";
@@ -46,6 +47,7 @@ export default {
     select_field: SelectField,
     multiselect_field: MultiSelectField,
     file_field: FileField,
+    multi_file_field: MultiFileFiled,
     date_field: DateField,
     hidden_field: HiddenField,
     checkbox_field: CheckboxField,
