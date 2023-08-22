@@ -43,10 +43,11 @@
 
     <div class="offcanvas-body">
       <div class="d-flex align-content-start flex-wrap" v-if="show_files">
-        <div v-for="file in file_list" @click="selectFile(file)" class="card file-card m-2"
+        <div v-for="file in file_list" @click="selectFile(file)" class="card file-card m-2 img-wrap"
              :class="modelValue == file.path ? 'selected' : ''">
           <img :src="file.thumbnail" class="img-fluid" alt="">
           <p class="file-name">{{ file.name }}</p>
+          <span @click.stop="removeFile(file.id)" class="close btn btn-danger btn-sm close">&times;</span>
         </div>
 
         <div v-if="!file_list.length" class="d-flex justify-content-center w-100">
@@ -98,6 +99,21 @@ export default {
     selectFile(file) {
       this.$emit('update:modelValue', file.thumbnail)
     },
+    removeFile(id) {
+      const result = confirm("Are you sure you want to delete this item?");
+      if (result) {
+        this.axios.delete(`/files-delete/${id}`).then(({data}) => {
+          // Check if the file.id exists in the file_list
+          const index = this.file_list.findIndex(item => item.id === id);
+          if (index !== -1) {
+            // Remove the item from the array
+            this.file_list = this.file_list.filter((_, i) => i !== index);
+          }
+        }).catch(error => {
+          throw error
+        })
+      }
+    },
     removeSelectedFile() {
       this.$emit('update:modelValue', null)
     },
@@ -116,6 +132,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.img-wrap {
+  position: relative;
+}
+
+.img-wrap .close {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  z-index: 100;
+}
+
 .file-filed {
   .card {
     width: 12rem;
