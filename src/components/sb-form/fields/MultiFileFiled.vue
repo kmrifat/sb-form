@@ -1,28 +1,23 @@
 <template>
-  <div class="col-12 file-filed">
+  <div>
     <label class="form-label mt-3 mb-0">{{ fieldInfo.label }} {{ fieldInfo.required ? '*' : '' }}</label>
-    <div class="card shadow-none mt-3">
-      <div class="card-body p-1" v-if="selectedFiles.length">
-        <div class="image-container">
-          <div v-for="(file, index) in selectedFiles" :key="index" class="image-item border">
-            <div v-if="isImageFile(file.type)" class="preview" :style="'background-image:url('+file.path+')'"></div>
-            <h3 v-else class="file-extension my-auto">{{ getFileExtension(file.path) }}</h3>
-            <button type="button" @click="removeSelectedFile(index)" class="remove-btn btn btn-danger btn-sm rounded-0">Remove</button>
-          </div>
-        </div>
+    <div class="d-flex align-content-start flex-wrap" >
+      <div v-if="selectedFiles.length" v-for="(file, index) in selectedFiles" class="card file-card m-2">
+        <img v-if="isImageFile(file.type)" :src="file.path" class="img-fluid" :alt="file.name">
+        <h3 v-else class="file-extension my-auto">{{ getFileExtension(file.name) }}</h3>
+        <span @click.stop="removeSelectedFile(index)" class="close btn btn-danger btn-sm close">&times;</span>
       </div>
-
-      <div class="card-body" @click="toggleModal">
+      <div @click="toggleModal" class="card file-card m-2">
         <i class="fas fa-cloud-upload fa-6x"></i>
         <p class="card-text">Click to upload or select files from File Manager.</p>
       </div>
     </div>
+
     <div :class="fieldInfo.error ? 'is-invalid': ''"></div>
     <div class="invalid-feedback">
       {{ fieldInfo.error ? fieldInfo.error[0] : '' }}
     </div>
   </div>
-
 
   <div class="offcanvas offcanvas-end w-50" tabindex="-1"
        :id="'fileOffCanvas'+fieldInfo.label.replace(/ /g,'')"
