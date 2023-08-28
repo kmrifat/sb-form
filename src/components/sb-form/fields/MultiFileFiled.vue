@@ -55,6 +55,8 @@
       <div class="d-flex align-content-start flex-wrap" v-if="show_files">
         <div v-for="file in file_list" @click="toggleFileSelection(file)" class="card file-card m-2"
              :class="{'selected': isFileSelected(file.id)}">
+             <a @click.stop="getInfo(file)" class="text-secondary fw-500" href="#">Info</a>
+             <a @click.stop="toggleFileSelection(file)"  class="text-secondary fw-500" href="#">Select</a>
           <img v-if="isImageFile(file.type)" :src="file.thumbnail" class="img-fluid" :alt="file.name">
           <h3 v-else class="file-extension my-auto">{{ getFileExtension(file.name) }}</h3>
           <p class="file-name">{{ file.name }}</p>
@@ -67,7 +69,10 @@
           </div>
         </div>
       </div>
-
+      <div v-if="selectFileDetails.name">
+        File name: {{selectFileDetails.name}}<br>
+        <a target="_blank" :href="selectFileDetails.path" download="">Path</a>
+      </div>
       <div v-else>
         <Dropzone call_back="addFile" :axios="axios"/>
       </div>
@@ -104,10 +109,14 @@ export default {
       show_files: true,
       file_type: '',
       file_list: [],
-      selectedFiles: []
+      selectedFiles: [],
+      selectFileDetails: {}
     }
   },
   methods: {
+    getInfo(file){
+      this.selectFileDetails = file
+    },
     toggleFileSelection(file) {
       if (this.isCtrlPressed()) {
         this.selectedFiles.includes(file)
