@@ -45,14 +45,14 @@
       <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
 
-    <div class="offcanvas-body">
+    <div class="offcanvas-body" v-if="show_files">
       <form @submit.prevent="getFiles">
         <div class="input-group mb-3">
           <input v-model="search" type="text" class="form-control" placeholder="Search...">
           <button class="btn btn-secondary" type="submit" id="button-addon2">Search</button>
         </div>
       </form>
-      <div class="d-flex align-content-start flex-wrap" v-if="show_files">
+      <div class="d-flex align-content-start flex-wrap">
         <div v-for="file in file_list" @click="toggleFileSelection(file)" class="card file-card m-2"
              :class="{'selected': isFileSelected(file.id)}">
              <a @click.stop="getInfo(file)" class="text-secondary fw-500" href="#">Info</a>
@@ -73,11 +73,10 @@
         File name: {{selectFileDetails.name}}<br>
         <a target="_blank" :href="selectFileDetails.path" download="">Path</a>
       </div>
-      <div v-else>
-        <Dropzone call_back="addFile" :axios="axios"/>
-      </div>
     </div>
-
+    <div class="offcanvas-body" v-else>
+      <Dropzone call_back="addFile" :axios="axios"/>
+    </div>
 
   </div>
 
