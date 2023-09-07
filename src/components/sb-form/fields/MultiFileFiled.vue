@@ -23,7 +23,6 @@
     </div>
   </div>
 
-
   <div class="offcanvas offcanvas-end w-50" tabindex="-1"
        :id="'fileOffCanvas'+fieldInfo.label.replace(/ /g,'')"
        aria-labelledby="offcanvasRightLabel">
@@ -74,7 +73,7 @@
         <a target="_blank" :href="selectFileDetails.path" download="">Path</a>
       </div>
     </div>
-    <div class="offcanvas-body"  v-else>
+    <div class="offcanvas-body" v-else>
       <Dropzone call_back="addFile" :axios="axios"/>
     </div>
 
