@@ -55,14 +55,27 @@
         </div>
       </form>
       <div class="d-flex align-content-start flex-wrap">
-        <div v-for="file in file_list" @click="toggleFileSelection(file)" class="card file-card m-2"
+        <div v-for="file in file_list" @click="toggleFileSelection(file)" class="card file-card w-192 m-2 overflow-hidden"
              :class="{'selected': isFileSelected(file.id)}">
-          <a @click.stop="getInfo(file)" class="text-secondary fw-500" href="#">Info</a>
-          <a @click.stop="toggleFileSelection(file)"  class="text-secondary fw-500" href="#">Select</a>
-          <img v-if="isImageFile(file.type)" :src="file.thumbnail" class="img-fluid" :alt="file.name">
+          <div class="dropdown end-0 pe-3 pt-2 position-absolute">
+            <div @click.stop class="dropdown-toggle h4 m-0 fw-bold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              &vellip;
+            </div>
+            <ul class="dropdown-menu p-3">
+              <li>
+                <a @click.prevent="getInfo(file)" class="text-decoration-none d-block fw-500 text-info" href="#">Info</a>
+              </li>
+              <li>
+                <a @click.prevent="toggleFileSelection(file)"  class="text-decoration-none d-block fw-500 text-dark" href="#" title="Press ctrl & click">Select</a>
+              </li>
+              <li>
+                <a  @click.prevent="removeFile(file.id)" class="text-decoration-none d-block close text-danger" href="#">Delete</a>
+              </li>
+            </ul>
+          </div>
+          <img v-if="isImageFile(file.type)" :src="file.thumbnail" class="w-100 h-100" :alt="file.name">
           <h3 v-else class="file-extension my-auto">{{ getFileExtension(file.name) }}</h3>
-          <p class="file-name">{{ file.name }}</p>
-          <span @click.stop="removeFile(file.id)" class="close btn btn-danger btn-sm close">&times;</span>
+          <p class="bottom-0 file-name mb-0 position-absolute text-center w-100 py-2">{{ file.name }}</p>
         </div>
 
         <div v-if="!file_list.length" class="d-flex justify-content-center w-100">
@@ -207,20 +220,11 @@ export default {
 
 
 .file-card {
-  height: 10rem;
-  width: 10rem;
-  overflow: hidden;
   cursor: pointer;
 
   .file-name {
-    position: absolute;
-    bottom: 0;
-    text-align: center;
-    background: rgb(0, 0, 0);
     background: rgba(0, 0, 0, 0.5);
     color: #f1f1f1;
-    width: 100%;
-    margin-bottom: 0 !important;
   }
 
   &.selected {
@@ -228,15 +232,16 @@ export default {
   }
 
   .close {
-    position: absolute;
-    top: 2px;
-    right: 2px;
-    z-index: 100;
+
   }
 
   .file-extension {
     display: flex;
     justify-content: center;
+  }
+
+  .dropdown-toggle::after{
+    display : none;
   }
 }
 
