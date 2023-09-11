@@ -3,17 +3,20 @@
     <label class="form-label mt-3 mb-0">{{ fieldInfo.label }} {{ fieldInfo.required ? '*' : '' }}</label>
     <div class="card shadow-none mt-3" @click="toggleModal">
       <div class="card-body p-1" v-if="modelValue">
-        <div v-if="isImageFile(file_type)" class="preview" :style="'background-image:url('+modelValue+')'"></div>
+        <div v-if="isImageFile(file_type)" class="preview img-thumbnail" :style="'background-image:url('+modelValue+')'"></div>
         <h3 v-else class="file-extension my-auto">{{ getFileExtension(modelValue) }}</h3>
+        <button type="button" @click="removeSelectedFile" class="remove-btn btn btn-danger btn-sm rounded-circle position-absolute">
+          &#128473;
+        </button>
       </div>
 
-      <div class="card-body" v-else>
+      <div class="align-items-center card-body d-flex text-center" v-else>
         <i class="fas fa-cloud-upload fa-6x"></i>
         <p class="card-text">Click to upload or select file from File Manager.</p>
       </div>
     </div>
-    <button class="btn btn-danger btn-sm rounded-0 reset-field" @click="removeSelectedFile" v-if="modelValue">Remove
-    </button>
+<!--    <button class="btn btn-danger btn-sm rounded-0 reset-field" @click="removeSelectedFile" v-if="modelValue">Remove
+    </button>-->
     <div :class="fieldInfo.error ? 'is-invalid': ''"></div>
     <div class="invalid-feedback">
       {{ fieldInfo.error ? fieldInfo.error[0] : '' }}
@@ -165,6 +168,10 @@ export default {
         background-repeat: no-repeat;
         background-origin: inherit;
         background-size: cover;
+      }
+      .remove-btn {
+        top: -8px;
+        right: -8px;
       }
     }
 
