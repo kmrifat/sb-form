@@ -55,10 +55,10 @@
       <div class="d-flex align-content-start flex-wrap" v-if="show_files">
         <div v-for="file in file_list" @click="selectFile(file)" class="card file-card m-2"
              :class="{'selected': modelValue === file.path}">
-          <img v-if="isImageFile(file.type)" :src="file.thumbnail" class="img-fluid" :alt="file.name">
+          <img v-if="isImageFile(file.type)" :src="file.thumbnail" class="rounded w-100 h-100" :alt="file.name">
           <h3 v-else class="file-extension my-auto">{{ getFileExtension(file.name) }}</h3>
-          <p class="file-name">{{ file.name }}</p>
-          <span @click.stop="removeFile(file.id)" class="close btn btn-danger btn-sm close">&times;</span>
+          <p class="file-name py-2 rounded">{{ file.name }}</p>
+          <span @click.stop="removeFile(file.id)" class="close btn btn-danger btn-sm rounded-circle close"> &#128473;</span>
         </div>
 
         <div v-if="!file_list.length" class="d-flex justify-content-center w-100">
@@ -197,7 +197,6 @@ export default {
 .file-card {
   height: 10rem;
   width: 10rem;
-  overflow: hidden;
   cursor: pointer;
 
   .file-name {
@@ -217,8 +216,8 @@ export default {
 
   .close {
     position: absolute;
-    top: 2px;
-    right: 2px;
+    top: -10px;
+    right: -10px;
     z-index: 100;
   }
 
