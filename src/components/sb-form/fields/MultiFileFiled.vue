@@ -63,7 +63,7 @@
             </div>
             <ul class="dropdown-menu p-3">
               <li>
-                <a @click.prevent="getInfo(file)" class="text-decoration-none d-block fw-500 text-info" href="#">Info</a>
+                <a @click.stop.prevent="getInfo(file)" class="text-decoration-none d-block fw-500 text-info" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Info</a>
               </li>
               <li>
                 <a @click.prevent="toggleFileSelection(file)"  class="text-decoration-none d-block fw-500 text-dark" href="#" title="Press ctrl & click">Select</a>
@@ -83,16 +83,30 @@
             <h1 class="text-black-50">No File Found</h1>
           </div>
         </div>
-      </div>
-      <div v-if="selectFileDetails.name">
-        File name: {{selectFileDetails.name}}<br>
-        <a target="_blank" :href="selectFileDetails.path" download="">Path</a>
+
       </div>
     </div>
     <div class="offcanvas-body" v-else>
       <Dropzone call_back="addFile" :axios="axios"/>
     </div>
 
+  </div>
+
+  <!--Info Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body" v-if="selectFileDetails.name">
+          <div>File Name : <b>{{selectFileDetails.name}}</b></div>
+          <div>File Type : <b>{{selectFileDetails.type}}</b></div>
+          <div>File Size : <b>{{selectFileDetails.size}}</b></div>
+          <img :src="selectFileDetails.path" class="img-thumbnail w-100 mt-3" alt="">
+        </div>
+        <div class="modal-footer pt-0 border-0">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
   </div>
 
 </template>
