@@ -57,8 +57,8 @@
       <div class="d-flex align-content-start flex-wrap">
         <div v-for="file in file_list" @click="toggleFileSelection(file)" class="card file-card w-192 m-2 overflow-hidden"
              :class="{'selected': isFileSelected(file.id)}">
-          <div class="dropdown end-0 pe-3 pt-2 position-absolute">
-            <div @click.stop class="dropdown-toggle h4 m-0 fw-bold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <div class="dropdown end-0 pe-2 pt-2 position-absolute">
+            <div @click.stop class="dropdown-toggle bg-white p-1 rounded-pill h4 m-0 fw-bold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
               &vellip;
             </div>
             <ul class="dropdown-menu p-3">
