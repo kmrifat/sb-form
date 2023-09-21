@@ -17,8 +17,6 @@
           </div>
         </div>
       </div>
-
-
     </div>
     <div :class="fieldInfo.error ? 'is-invalid': ''"></div>
     <div class="invalid-feedback">
@@ -89,7 +87,6 @@
     <div class="offcanvas-body" v-else>
       <Dropzone call_back="addFile" :axios="axios"/>
     </div>
-
   </div>
 
   <!--Info Modal -->
