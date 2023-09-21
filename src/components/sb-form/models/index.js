@@ -2,6 +2,7 @@ import StringField from "./StringField";
 import PasswordField from "./PasswordField";
 import EmailField from "./EmailField";
 import FileFiled from "./FileField";
+import MultiFileFiled from "./MultiFileFiled";
 import SelectField from "./SelectField";
 import HiddenField from "./HiddenField";
 import TextField from "./TextField";
@@ -15,6 +16,7 @@ export {
     PasswordField,
     EmailField,
     FileFiled,
+    MultiFileFiled,
     SelectField,
     MultiSelectField,
     HiddenField,
