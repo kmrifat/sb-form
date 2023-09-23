@@ -1,10 +1,9 @@
 <template>
-  <div class="col-12 file-filed">
+  <div :class="fieldInfo.col ? 'col-'+fieldInfo.col : 'col-12'" class="file-filed">
     <label class="form-label mt-3 mb-0">{{ fieldInfo.label }} {{ fieldInfo.required ? '*' : '' }}</label>
     <div class="card shadow-none mt-3" @click="toggleModal">
       <div class="card-body p-1" v-if="modelValue">
-        <div v-if="isImageFile(file_type)" class="preview img-thumbnail" :style="'background-image:url('+modelValue+')'"></div>
-        <h3 v-else class="file-extension my-auto">{{ getFileExtension(modelValue) }}</h3>
+        <div class="preview img-thumbnail" :style="'background-image:url('+modelValue+')'"></div>
         <button type="button" @click="removeSelectedFile" class="remove-btn btn btn-danger btn-sm rounded-circle position-absolute">
           &#128473;
         </button>
@@ -45,18 +44,17 @@
       <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
 
-    <div class="offcanvas-body">
+    <div class="offcanvas-body" v-if="show_files">
       <form @submit.prevent="getFiles">
         <div class="input-group mb-3">
           <input v-model="search" type="text" class="form-control" placeholder="Search...">
           <button class="btn btn-secondary" type="submit" id="button-addon2">Search</button>
         </div>
       </form>
-      <div class="d-flex align-content-start flex-wrap" v-if="show_files">
+      <div class="d-flex align-content-start flex-wrap">
         <div v-for="file in file_list" @click="selectFile(file)" class="card file-card m-2"
              :class="{'selected': modelValue === file.path}">
-          <img v-if="isImageFile(file.type)" :src="file.thumbnail" class="rounded w-100 h-100" :alt="file.name">
-          <h3 v-else class="file-extension my-auto">{{ getFileExtension(file.name) }}</h3>
+          <img :src="file.thumbnail" class="rounded w-100 h-100" :alt="file.name">
           <p class="file-name py-2 rounded">{{ file.name }}</p>
           <span @click.stop="removeFile(file.id)" class="close btn btn-danger btn-sm rounded-circle close"> &#128473;</span>
         </div>
@@ -67,12 +65,10 @@
           </div>
         </div>
       </div>
-
-      <div v-else>
-        <Dropzone call_back="addFile" :axios="axios"/>
-      </div>
     </div>
-
+    <div class="offcanvas-body" v-else>
+      <Dropzone call_back="addFile" :axios="axios"/>
+    </div>
 
   </div>
 
@@ -105,12 +101,6 @@ export default {
     }
   },
   methods: {
-    isImageFile(type) {
-      return type.startsWith('image/');
-    },
-    getFileExtension(filename) {
-      return filename.split('.').pop().toUpperCase();
-    },
     toggleModal() {
       let fileOffCanvas = new Offcanvas(document.getElementById('fileOffCanvas' + this.fieldInfo.label.replace(/ /g, '')))
       fileOffCanvas.toggle()

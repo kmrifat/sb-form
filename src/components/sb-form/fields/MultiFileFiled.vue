@@ -1,17 +1,19 @@
 <template>
-  <div class="col-12 file-filed mb-3 position-relative">
+  <div :class="fieldInfo.col ? 'col-'+fieldInfo.col : 'col-12'" class="file-filed mb-3 position-relative">
     <label class="form-label mt-3 mb-0">{{ fieldInfo.label }} {{ fieldInfo.required ? '*' : '' }}</label>
     <div class="card shadow-none mt-3 border-0 flex-row gap-3">
       <div class="card-body p-0">
         <div class="image-container d-flex flex-wrap align-items-center gap-3">
           <div v-for="(file, index) in selectedFiles" :key="index" class="position-relative">
-            <div v-if="isImageFile(file.type)" class="preview w-192 img-thumbnail" :style="'background-image:url('+file.path+')'"></div>
-            <h3 v-else class="file-extension my-auto">{{ getFileExtension(file.path) }}</h3>
-            <button type="button" @click="removeSelectedFile(index)" class="remove-btn btn btn-danger btn-sm rounded-circle position-absolute">
+            <div class="preview w-192 img-thumbnail" :style="'background-image:url('+file+')'"></div>
+            <button type="button" @click="removeSelectedFile(index)"
+                    class="remove-btn btn btn-danger btn-sm rounded-circle position-absolute">
               &#128473;
             </button>
           </div>
-          <div class="align-items-center border card-body d-flex flex-grow-0 flex-shrink-0 justify-content-center rounded text-center w-192" type="button" @click="toggleModal">
+          <div
+              class="align-items-center border card-body d-flex flex-grow-0 flex-shrink-0 justify-content-center rounded text-center w-192"
+              type="button" @click="toggleModal">
             <i class="fas fa-cloud-upload fa-6x"></i>
             <p class="card-text">Click to upload or select files from File Manager.</p>
           </div>
@@ -53,10 +55,12 @@
         </div>
       </form>
       <div class="d-flex align-content-start flex-wrap">
-        <div v-for="file in file_list" @click="toggleFileSelection(file)" class="card file-card w-192 m-2 overflow-hidden"
-             :class="{'selected': isFileSelected(file.id)}">
+        <div v-for="file in file_list" @click="toggleFileSelection(file)"
+             class="card file-card w-192 m-2 overflow-hidden"
+             :class="{'selected': isFileSelected(file.thumbnail)}">
           <div class="dropdown end-0 pe-2 pt-2 position-absolute">
-            <div @click.stop class="dropdown-toggle bg-white p-1 rounded-pill h4 m-0 fw-bold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <div @click.stop class="dropdown-toggle bg-white p-1 rounded-pill h4 m-0 fw-bold" type="button"
+                 data-bs-toggle="dropdown" aria-expanded="false">
               &vellip;
             </div>
             <ul class="dropdown-menu">
@@ -71,8 +75,7 @@
               </li>
             </ul>
           </div>
-          <img v-if="isImageFile(file.type)" :src="file.thumbnail" class="w-100 h-100" :alt="file.name">
-          <h3 v-else class="file-extension my-auto">{{ getFileExtension(file.name) }}</h3>
+          <img :src="file.thumbnail" class="w-100 h-100" :alt="file.name">
           <p class="bottom-0 file-name mb-0 position-absolute text-center w-100 py-2">{{ file.name }}</p>
         </div>
 
@@ -94,9 +97,9 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-body" v-if="selectFileDetails.name">
-          <div>File Name : <b>{{selectFileDetails.name}}</b></div>
-          <div>File Type : <b>{{selectFileDetails.type}}</b></div>
-          <div>File Size : <b>{{selectFileDetails.size}}</b></div>
+          <div>File Name : <b>{{ selectFileDetails.name }}</b></div>
+          <div>File Type : <b>{{ selectFileDetails.type }}</b></div>
+          <div>File Size : <b>{{ selectFileDetails.size }}</b></div>
           <img :src="selectFileDetails.path" class="img-thumbnail w-100 mt-3" alt="">
         </div>
         <div class="modal-footer pt-0 border-0">
@@ -139,38 +142,31 @@ export default {
     }
   },
   methods: {
-    getInfo(file){
+    getInfo(file) {
       this.selectFileDetails = file
     },
     toggleFileSelection(file) {
       if (this.isCtrlPressed()) {
-        this.selectedFiles.includes(file)
-            ? this.selectedFiles = this.selectedFiles.filter(path => path !== file)
-            : this.selectedFiles.push(file);
+        this.selectedFiles.includes(file.thumbnail)
+            ? this.selectedFiles = this.selectedFiles.filter(path => path !== file.thumbnail)
+            : this.selectedFiles.push(file.thumbnail);
       } else {
-        this.selectedFiles = [file];
+        this.selectedFiles = [file.thumbnail];
       }
       this.$emit('update:modelValue', this.selectedFiles)
     },
     isFileSelected(id) {
-      return this.selectedFiles.some(file => file.id === id);
+      if (typeof this.selectedFiles == 'string') {
+        return;
+      }
+      return this.selectedFiles.some(file => file === id);
     },
     isCtrlPressed() {
       return window.event.ctrlKey || window.event.metaKey; // metaKey for Command key on macOS
     },
-    isImageFile(type) {
-      return type.startsWith('image/');
-    },
-    getFileExtension(filename) {
-      return filename.split('.').pop().toUpperCase();
-    },
     toggleModal() {
       let fileOffCanvas = new Offcanvas(document.getElementById('fileOffCanvas' + this.fieldInfo.label.replace(/ /g, '')))
       fileOffCanvas.toggle()
-    },
-    selectFile(file) {
-      this.file_type = file.type
-      this.$emit('update:modelValue', file.path)
     },
     removeFile(id) {
       const result = confirm("Are you sure you want to delete this item?");
@@ -202,6 +198,11 @@ export default {
       })
     }
   },
+  watch: {
+    'modelValue'() {
+      this.selectedFiles = this.modelValue
+    }
+  },
   mounted() {
     this.getFiles();
   }
@@ -218,11 +219,13 @@ export default {
         background-origin: inherit;
         background-size: cover;
       }
+
       .remove-btn {
         top: -8px;
         right: -8px;
       }
     }
+
     .card-text {
       font-size: 10px;
     }
@@ -245,14 +248,14 @@ export default {
     justify-content: center;
   }
 
-  .dropdown-toggle::after{
-    display : none;
+  .dropdown-toggle::after {
+    display: none;
   }
 }
 
-.w-192{
-  width : 192px;
-  height : 192px;
+.w-192 {
+  width: 192px;
+  height: 192px;
 }
 
 </style>
