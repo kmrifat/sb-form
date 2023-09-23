@@ -59,15 +59,15 @@
             <div @click.stop class="dropdown-toggle bg-white p-1 rounded-pill h4 m-0 fw-bold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
               &vellip;
             </div>
-            <ul class="dropdown-menu p-3">
+            <ul class="dropdown-menu">
               <li>
-                <a @click.stop.prevent="getInfo(file)" class="text-decoration-none d-block fw-500 text-info" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Info</a>
+                <a @click.stop.prevent="getInfo(file)" class="dropdown-item text-info" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Info</a>
               </li>
               <li>
-                <a @click.prevent="toggleFileSelection(file)"  class="text-decoration-none d-block fw-500 text-dark" href="#" title="Press ctrl & click">Select</a>
+                <a @click.prevent="toggleFileSelection(file)"  class="dropdown-item text-dark" href="#" title="Press ctrl & click">Select</a>
               </li>
               <li>
-                <a  @click.prevent="removeFile(file.id)" class="text-decoration-none d-block close text-danger" href="#">Delete</a>
+                <a  @click.prevent="removeFile(file.id)" class="dropdown-item close text-danger" href="#">Delete</a>
               </li>
             </ul>
           </div>
@@ -229,7 +229,6 @@ export default {
   }
 }
 
-
 .file-card {
   cursor: pointer;
 
@@ -241,11 +240,6 @@ export default {
   &.selected {
     border: 4px solid red;
   }
-
-  .close {
-
-  }
-
   .file-extension {
     display: flex;
     justify-content: center;
