@@ -12,7 +12,7 @@
             </button>
           </div>
           <div
-              class="align-items-center border card-body d-flex flex-grow-0 flex-shrink-0 justify-content-center rounded text-center w-192"
+              class="border card-body d-flex flex-column flex-grow-0 flex-shrink-0 justify-content-center rounded text-center w-192"
               type="button" @click="toggleModal">
             <i class="fas fa-cloud-upload fa-6x"></i>
             <p class="card-text">Click to upload or select files from File Manager.</p>
@@ -65,7 +65,7 @@
             </div>
             <ul class="dropdown-menu">
               <li>
-                <a @click.stop.prevent="getInfo(file)" class="dropdown-item text-info" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Info</a>
+                <a @click.stop.prevent="getInfo(file)" class="dropdown-item text-info" href="#" data-bs-toggle="modal" data-bs-target="#photoInfoModal">Info</a>
               </li>
               <li>
                 <a @click.prevent="toggleFileSelection(file)"  class="dropdown-item text-dark" href="#" title="Press ctrl & click">Select</a>
@@ -93,7 +93,7 @@
   </div>
 
   <!--Info Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="photoInfoModal" tabindex="-1" aria-labelledby="photoInfoModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-body" v-if="selectFileDetails.name">

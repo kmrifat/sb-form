@@ -9,7 +9,7 @@
         </button>
       </div>
 
-      <div class="align-items-center card-body d-flex text-center" v-else>
+      <div class="card-body d-flex flex-column justify-content-center text-center" v-else>
         <i class="fas fa-cloud-upload fa-6x"></i>
         <p class="card-text">Click to upload or select file from File Manager.</p>
       </div>
