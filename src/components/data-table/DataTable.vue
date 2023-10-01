@@ -6,15 +6,15 @@
       </slot>
     </div>
     <div class="card-body" v-if="!loading">
-      <form @submit.prevent="fetchData" class="d-flex justify-content-between sb-datatable">
-        <div class="per-page-select">
-          <label>
-            <select v-model="per_page" class="form-select" @change="fetchData">
+      <form @submit.prevent="fetchData" class="d-flex justify-content-between gap-2 mb-3  flex-wrap sb-datatable">
+        <div class="per-page-select d-flex align-items-center gap-2">
+            <select v-model="per_page" class="form-select w-auto" @change="fetchData">
               <option value="20">20</option>
               <option value="30">30</option>
               <option value="40">40</option>
               <option value="50">50</option>
             </select>
+          <label class="text-nowrap">
             entries per page
           </label>
         </div>
