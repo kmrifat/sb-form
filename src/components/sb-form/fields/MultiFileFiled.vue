@@ -65,13 +65,15 @@
             </div>
             <ul class="dropdown-menu">
               <li>
-                <a @click.stop.prevent="getInfo(file)" class="dropdown-item text-info" href="#" data-bs-toggle="modal" data-bs-target="#photoInfoModal">Info</a>
+                <a @click.stop.prevent="getInfo(file)" class="dropdown-item text-info" href="#" data-bs-toggle="modal"
+                   data-bs-target="#photoInfoModal">Info</a>
               </li>
               <li>
-                <a @click.prevent="toggleFileSelection(file)"  class="dropdown-item text-dark" href="#" title="Press ctrl & click">Select</a>
+                <a @click.prevent="toggleFileSelection(file)" class="dropdown-item text-dark" href="#"
+                   title="Press ctrl & click">Select</a>
               </li>
               <li>
-                <a  @click.prevent="removeFile(file.id)" class="dropdown-item close text-danger" href="#">Delete</a>
+                <a @click.prevent="removeFile(file.id)" class="dropdown-item close text-danger" href="#">Delete</a>
               </li>
             </ul>
           </div>
@@ -117,27 +119,27 @@ import Dropzone from "../../dropzone/Dropzone.vue";
 import {Offcanvas} from "bootstrap"
 
 export default {
-  name: "MultiFileFiled",
-  props: {
-    axios: {
+  name      : "MultiFileFiled",
+  props     : {
+    axios       : {
       type: Function
     },
     'modelValue': {
       type: Array
     },
-    fieldInfo: {}
+    fieldInfo   : {}
   },
-  emits: ['update:modelValue'],
+  emits     : ['update:modelValue'],
   components: {
     Dropzone
   },
   data() {
     return {
-      search: '',
-      show_files: true,
-      file_type: '',
-      file_list: [],
-      selectedFiles: [],
+      search           : '',
+      show_files       : true,
+      file_type        : '',
+      file_list        : [],
+      selectedFiles    : [],
       selectFileDetails: {}
     }
   },
@@ -198,7 +200,7 @@ export default {
       })
     }
   },
-  watch: {
+  watch  : {
     'modelValue'() {
       this.selectedFiles = this.modelValue
     }
@@ -215,47 +217,54 @@ export default {
   .card {
     .card-body {
       .preview {
-        background-repeat: no-repeat;
-        background-origin: inherit;
-        background-size: cover;
+        background-repeat : no-repeat;
+        background-origin : inherit;
+        background-size   : cover;
       }
 
       .remove-btn {
-        top: -8px;
-        right: -8px;
+        top   : -8px;
+        right : -8px;
       }
     }
 
     .card-text {
-      font-size: 10px;
+      font-size : 10px;
     }
   }
 }
 
 .file-card {
-  cursor: pointer;
+  cursor : pointer;
 
   .file-name {
-    background: rgba(0, 0, 0, 0.5);
-    color: #f1f1f1;
+    background : rgba(0, 0, 0, 0.5);
+    color      : #f1f1f1;
   }
 
   &.selected {
-    border: 4px solid red;
+    border : 4px solid red;
   }
+
   .file-extension {
-    display: flex;
-    justify-content: center;
+    display         : flex;
+    justify-content : center;
   }
 
   .dropdown-toggle::after {
-    display: none;
+    display : none;
   }
 }
 
 .w-192 {
-  width: 192px;
-  height: 192px;
+  width  : 192px;
+  height : 192px;
+}
+
+@media (max-width: 575px) {
+  .offcanvas.w-50 {
+    width : 100% !important;
+  }
 }
 
 </style>
