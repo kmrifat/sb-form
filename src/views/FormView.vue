@@ -8,7 +8,7 @@
 import SBForm from "../components/sb-form/SBForm.vue";
 import apiService from "../services/apiService";
 import {
-  CheckboxField, CustomField,
+  CheckboxField, CustomField, RadioField,
   EmailField,
   FileFiled, MultiFileFiled,
   PasswordField,
@@ -31,25 +31,25 @@ export default {
       photo: new FileFiled({label: 'Photo'}),
       multi_photo: new MultiFileFiled({label: 'Multi Photo'}),
       gender: new SelectField({
-        label: 'Gender',
+        label  : 'Gender',
         options: [{id: 1, name: 'Rifat'}],
-        config: {value: 'id', display: 'name'},
-        value: 1
+        config : {value: 'id', display: 'name'},
+        value  : 1
       }),
-      multi_checkbox: new CheckboxField({
-        label: 'Multiple Check Box',
+      radio: new RadioField({
+        label: 'Radio'
         inline: true,
         options: [
-          {label: 'Hello 1', value: 1},
-          {label: 'Hello 2', value: 2},
-          {label: 'hello 3', value: 3}
+          {label: 'Active', value: 1},
+          {label: 'Inactive', value: 0},
         ],
-        value: [1, 2]
+        value: 1
       }),
       single_checkbox: new CheckboxField({
         label: 'Single Checkbox',
         option: {
-          value: 'active', label: 'Active'
+          value: 'active',
+          label: 'Active'
         }
       }),
       rifat: new CustomField({

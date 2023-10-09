@@ -9,6 +9,7 @@ import TextField from "./TextField";
 import DateField from "./DateField";
 import MultiSelectField from "./MultiSelectField";
 import CheckboxField from "./CheckboxField";
+import RadioField from "./RadioField";
 import {CustomField, VueComponentProp} from "./CustomField";
 
 export {
@@ -23,6 +24,7 @@ export {
     TextField,
     DateField,
     CheckboxField,
+    RadioField,
     CustomField,
     VueComponentProp
 }
