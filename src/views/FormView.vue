@@ -11,7 +11,7 @@ import {
   CheckboxField, CustomField,
   EmailField,
   FileFiled, MultiFileFiled,
-  PasswordField,
+  PasswordField, RadioField,
   SelectField,
   StringField, TextField
 } from "../components/sb-form/models";
@@ -25,6 +25,16 @@ export default {
   data: () => ({
     axios: apiService,
     fields: {
+      radio: new RadioField({
+        label: 'Radio',
+        inline: true,
+        name:'radio',
+        options: [
+          {value: 1, label: 'Active'},
+          {value: 0, label: 'Inactive'}
+        ],
+        value: 1,
+      }),
       name: new StringField({label: 'Full Name', value: 'Rifat'}),
       email: new EmailField({label: 'Email Address'}),
       password: new PasswordField({label: 'Password'}),
@@ -50,7 +60,8 @@ export default {
         label: 'Single Checkbox',
         option: {
           value: 'active', label: 'Active'
-        }
+        },
+        value:'active',
       }),
       rifat: new CustomField({
         component: Rifat,
