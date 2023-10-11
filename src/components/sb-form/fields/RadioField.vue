@@ -1,7 +1,7 @@
 <template>
   <div :class="fieldInfo.col ? 'col-'+fieldInfo.col : 'col-12'">
     <label class="form-label pe-2">{{ fieldInfo.label }} {{ fieldInfo.required ? '*' : '' }}</label>
-
+    <br>
     <div v-for="(option, index) in fieldInfo.options" class="form-check"
          :class="{'form-check-inline': fieldInfo.inline === true}">
       <input class="form-check-input"
