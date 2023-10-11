@@ -33,6 +33,7 @@ import MultiFileFiled from "./fields/MultiFileFiled.vue";
 import DateField from "./fields/DateField.vue";
 import MultiSelectField from "./fields/MultiSelectField.vue";
 import HiddenField from "./fields/HiddenField.vue";
+import RadioField from "./fields/RadioField.vue";
 import CheckboxField from "./fields/CheckboxField.vue";
 import toastr from 'toastr';
 import CustomField from "./fields/CustomField.vue";
@@ -50,6 +51,7 @@ export default {
     multi_file_field: MultiFileFiled,
     date_field: DateField,
     hidden_field: HiddenField,
+    radio_field: RadioField,
     checkbox_field: CheckboxField,
     custom_field: CustomField
   },
@@ -178,7 +180,7 @@ export default {
       console.log('here')
       try {
         Object.entries(this.fields).map((value) => {
-          this.models[value[0]] = value[1].value ? value[1].value : ''
+          this.models[value[0]] = (value[1].value || value[1].value === 0) ? value[1].value : ''
         })
       } catch (e) {
         console.error(e)
