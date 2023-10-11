@@ -3,19 +3,18 @@
     <label class="form-label mt-3 mb-0">{{ fieldInfo.label }} {{ fieldInfo.required ? '*' : '' }}</label>
     <div class="card shadow-none mt-3" @click="toggleModal">
       <div class="card-body p-1" v-if="modelValue">
-        <div class="preview img-thumbnail" :style="'background-image:url('+modelValue+')'"></div>
+        <div class="preview w-192 img-thumbnail" :style="'background-image:url('+modelValue+')'"></div>
         <button type="button" @click="removeSelectedFile" class="remove-btn btn btn-danger btn-sm rounded-circle position-absolute">
           &#128473;
         </button>
       </div>
 
-      <div class="align-items-center card-body d-flex text-center" v-else>
+      <div class="card-body d-flex flex-column justify-content-center text-center" v-else>
         <i class="fas fa-cloud-upload fa-6x"></i>
         <p class="card-text">Click to upload or select file from File Manager.</p>
       </div>
     </div>
-<!--    <button class="btn btn-danger btn-sm rounded-0 reset-field" @click="removeSelectedFile" v-if="modelValue">Remove
-    </button>-->
+
     <div :class="fieldInfo.error ? 'is-invalid': ''"></div>
     <div class="invalid-feedback">
       {{ fieldInfo.error ? fieldInfo.error[0] : '' }}
@@ -52,11 +51,30 @@
         </div>
       </form>
       <div class="d-flex align-content-start flex-wrap">
-        <div v-for="file in file_list" @click="selectFile(file)" class="card file-card m-2"
+        <div v-for="file in file_list" @click="selectFile(file)"
+             class="card file-card m-2 w-192"
              :class="{'selected': modelValue === file.path}">
+
+          <div class="dropdown end-0 pe-2 pt-2 position-absolute">
+            <div @click.stop class="dropdown-toggle bg-white p-1 rounded-pill h4 m-0 fw-bold" type="button"
+                 data-bs-toggle="dropdown" aria-expanded="false">
+              &vellip;
+            </div>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li>
+                <a @click.stop.prevent="getInfo(file)" class="dropdown-item text-info" href="#" data-bs-toggle="modal" data-bs-target="#photoInfoModal">Info</a>
+              </li>
+              <li>
+                <a @click.prevent="selectFile(file)"  class="dropdown-item text-dark" href="#" title="Press ctrl & click">Select</a>
+              </li>
+              <li>
+                <a  @click.prevent="removeFile(file.id)"  class="dropdown-item close text-danger" href="#">Delete</a>
+              </li>
+            </ul>
+          </div>
+
           <img :src="file.thumbnail" class="rounded w-100 h-100" :alt="file.name">
           <p class="file-name py-2 rounded">{{ file.name }}</p>
-          <span @click.stop="removeFile(file.id)" class="close btn btn-danger btn-sm rounded-circle close"> &#128473;</span>
         </div>
 
         <div v-if="!file_list.length" class="d-flex justify-content-center w-100">
@@ -70,6 +88,23 @@
       <Dropzone call_back="addFile" :axios="axios"/>
     </div>
 
+  </div>
+
+  <!--Info Modal -->
+  <div class="modal fade" id="photoInfoModal" tabindex="-1" aria-labelledby="photoInfoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div>File Name : <b>{{selectFileDetails.name}}</b></div>
+          <div>File Type : <b>{{selectFileDetails.type}}</b></div>
+          <div>File Size : <b>{{selectFileDetails.size}}</b></div>
+          <img :src="selectFileDetails.path" class="img-thumbnail w-100 mt-3" alt="">
+        </div>
+        <div class="modal-footer pt-0 border-0">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
   </div>
 
 </template>
@@ -97,10 +132,15 @@ export default {
       search: '',
       show_files: true,
       file_type: '',
-      file_list: []
+      file_list: [],
+      selectFileDetails: {}
     }
   },
   methods: {
+    getInfo(file) {
+      this.selectFileDetails = file
+    },
+
     toggleModal() {
       let fileOffCanvas = new Offcanvas(document.getElementById('fileOffCanvas' + this.fieldInfo.label.replace(/ /g, '')))
       fileOffCanvas.toggle()
@@ -188,7 +228,9 @@ export default {
   height: 10rem;
   width: 10rem;
   cursor: pointer;
-
+  .dropdown-toggle::after {
+    display: none;
+  }
   .file-name {
     position: absolute;
     bottom: 0;
@@ -204,18 +246,21 @@ export default {
     border: 4px solid red;
   }
 
-  .close {
-    position: absolute;
-    top: -10px;
-    right: -10px;
-    z-index: 100;
-  }
-
   .file-extension {
     display: flex;
     justify-content: center;
   }
 }
 
+.w-192 {
+  width: 192px;
+  height: 192px;
+}
+
+@media (max-width: 575px) {
+  .offcanvas.w-50 {
+    width : 100% !important;
+  }
+}
 
 </style>
