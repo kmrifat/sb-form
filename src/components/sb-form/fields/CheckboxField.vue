@@ -8,7 +8,7 @@
         <input class="form-check-input"
                :value="option.value"
                :checked="isSelected(option.value)"
-               @change="updateSelected($event.target.value)"
+               @change="updateSelected(option.value)"
                type="checkbox"
                :id="`${option.value}${index}`">
         <label class="form-check-label"
@@ -23,8 +23,8 @@
         <input class="form-check-input"
                :id="`${fieldInfo.option?.value}`"
                :value="fieldInfo.option?.value"
-               :checked="isSelected(fieldInfo.option?.value)"
-               @change="updateSingleSelected($event.target?.value)"
+               :checked="singleIsSelected(fieldInfo.option?.value)"
+               @change="updateSingleSelected(fieldInfo.option?.value)"
                type="checkbox">
         <label class="form-check-label"
                :for="`${fieldInfo.option?.value}`">
@@ -68,6 +68,10 @@ export default {
       this.$emit('update:modelValue', selectedValues);
     },
 
+    // for single checkbox
+    singleIsSelected(value) {
+      return this.modelValue === value
+    },
     updateSingleSelected(value) {
       let selectedValue = value
       if (value === this.modelValue) {
