@@ -113,16 +113,22 @@ export default {
   },
   methods: {
     getValue(item, field) {
+      if (!item) {
+        return ''; // Return an empty string if the item is null
+      }
+
       const fields = field.split('.'); // Split the dot-separated field into an array
       let value = item;
+
       for (const f of fields) {
-        if (value.hasOwnProperty(f)) {
+        if (value && value.hasOwnProperty(f)) {
           value = value[f];
         } else {
           value = '';
           break;
         }
       }
+
       return value;
     },
     getRowNumber(index) {
@@ -158,7 +164,7 @@ export default {
       let query = `?${queryString}`
       query += '&limit=' + this.per_page
       query += '&page=' + this.page
-      if (this.sortColumn) query += `&sort=${this.sortColumn}|${this.sortOrder}`
+      if (this.sortColumn) query += `&sort=${this.sortOrder == 'desc' ? '-' : ''}${this.sortColumn}`
       return query
     },
 
