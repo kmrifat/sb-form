@@ -158,9 +158,10 @@ export default {
     },
 
     getQuery() {
-      let searchable_column = this.columns.filter(element => element.searchable).map(element => element.field)
-      const queryParameters = searchable_column.map(column => `contains[${column}]=${this.q}`);
-      const queryString = queryParameters.join('&');
+      // let searchable_column = this.columns.filter(element => element.searchable).map(element => element.field)
+      // const queryParameters = searchable_column.map(column => `contains[${column}]=${this.q}`);
+      // const queryString = queryParameters.join('&');
+      const queryString = 'aa=aa';
       let query = `?${queryString}`
       query += '&limit=' + this.per_page
       query += '&page=' + this.page

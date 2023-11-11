@@ -41,15 +41,23 @@ import apiService from "../services/apiService";
 
 const tableData = ref({
   columns: [
-    {label: 'Dose', field: 'dose', searchable: true, sortable: true},
+    {label: 'Invoice ID', field: 'invoice_id', searchable: true, sortable: true},
+    {label: 'Date', field: 'invoice_date', searchable: true, sortable: true},
+    {label: 'Doctor', field: 'doctor.user.name', searchable: true, sortable: true},
+    {label: 'Patient', field: 'patient.user.name', searchable: true, sortable: true},
+    {label: 'Total quantity', field: 'total_quantity', searchable: true, sortable: true},
+    {label: 'Discount', field: 'discount', searchable: true, sortable: true},
+    {label: 'Grand total', field: 'grand_total', searchable: true, sortable: true},
     {label: 'Status', field: 'status', searchable: true, sortable: true},
     {label: 'Actions', field: 'actions'}
   ],
-  title: 'Dose List',
-  url: '/doses',
+  title: 'Invoice List',
+  url: '/invoices',
   axios: apiService,
-  createRoute: 'createDose',
-  createTitle: 'Create Dose'
+  createRoute: 'createInvoice',
+  createTitle: 'Create Invoice'
 })
+
+
 
 </script>
