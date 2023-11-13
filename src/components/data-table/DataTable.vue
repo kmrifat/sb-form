@@ -161,11 +161,10 @@ export default {
       // let searchable_column = this.columns.filter(element => element.searchable).map(element => element.field)
       // const queryParameters = searchable_column.map(column => `contains[${column}]=${this.q}`);
       // const queryString = queryParameters.join('&');
-      const queryString = 'aa=aa';
-      let query = `?${queryString}`
+      let query = '?search=' + this.q;
       query += '&limit=' + this.per_page
       query += '&page=' + this.page
-      if (this.sortColumn) query += `&sort=${this.sortOrder == 'desc' ? '-' : ''}${this.sortColumn}`
+      if (this.sortColumn) query += `&sort=${this.sortOrder === 'desc' ? '-' : ''}${this.sortColumn}`
       return query
     },
 
