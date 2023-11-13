@@ -161,10 +161,10 @@ export default {
       // let searchable_column = this.columns.filter(element => element.searchable).map(element => element.field)
       // const queryParameters = searchable_column.map(column => `contains[${column}]=${this.q}`);
       // const queryString = queryParameters.join('&');
-      let query = '?search=' + this.q;
+      let query = '?page=' + this.page
       query += '&limit=' + this.per_page
-      query += '&page=' + this.page
       if (this.sortColumn) query += `&sort=${this.sortOrder === 'desc' ? '-' : ''}${this.sortColumn}`
+      if (this.q) query += `&search=${this.q}`
       return query
     },
 
