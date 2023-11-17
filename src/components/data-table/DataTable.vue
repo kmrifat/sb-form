@@ -23,12 +23,21 @@
         </div>
       </form>
       <div class="table-responsive">
-        <table class="table" :class="tableClasses">
+        <table class="table table-striped dataTable" :class="tableClasses">
           <thead>
           <tr>
             <th>#</th>
-            <th v-for="column in columns">
-              <a href="#" class="dataTable-sorter">{{ column.label }}</a>
+            <th
+                v-for="column in columns"
+                :key="column.field"
+                @click="sort(column)"
+                :class="{
+                  sorting: column.sortable,
+                  sorting_asc: sortColumn === column.field && sortOrder === 'asc',
+                  sorting_desc: sortColumn === column.field && sortOrder === 'desc'
+            }"
+            >
+              {{ column.label }}
             </th>
           </tr>
           </thead>
@@ -97,21 +106,29 @@ export default {
       q: '',
       per_page: 20,
       showing: "",
-      page: 1
+      page: 1,
+      sortColumn: null,
+      sortOrder: 'asc', // or 'desc' for descending order
     }
   },
   methods: {
     getValue(item, field) {
+      if (!item) {
+        return ''; // Return an empty string if the item is null
+      }
+
       const fields = field.split('.'); // Split the dot-separated field into an array
       let value = item;
+
       for (const f of fields) {
-        if (value.hasOwnProperty(f)) {
+        if (value && value.hasOwnProperty(f)) {
           value = value[f];
         } else {
           value = '';
           break;
         }
       }
+
       return value;
     },
     getRowNumber(index) {
@@ -140,11 +157,33 @@ export default {
       }
     },
 
+    getQuery() {
+      let query = '?page=' + this.page
+      query += '&limit=' + this.per_page
+      if (this.sortColumn) query += `&sort=${this.sortOrder === 'desc' ? '-' : ''}${this.sortColumn}`
+      if (this.q) query += `&search=${this.q}`
+      return query
+    },
+
+    sort(column) {
+      if (!column.sortable) {
+        return;
+      }
+
+      let sortColumn = column.sort_column ? column.sort_column : column.field;
+
+      if (this.sortColumn === sortColumn) {
+        this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
+      } else {
+        this.sortColumn = sortColumn;
+        this.sortOrder = 'asc';
+      }
+      this.fetchData()
+    },
+
     fetchData() {
       this.loading = true
-      let searchable_column = this.columns.filter(element => element.searchable).map(element => element.field)
-      console.log(searchable_column)
-      this.axios.get(`${this.url}?searchable=${searchable_column}&q=${this.q}&limit=${this.per_page}&page=${this.page}`).then(({data}) => {
+      this.axios.get(`${this.url}${this.getQuery()}`).then(({data}) => {
         if ('data' in data) {
           this.data = data.data;
           const paginationData = 'meta' in data ? data.meta : data;
@@ -167,7 +206,9 @@ export default {
   }
 }
 </script>
+<style>
 
+</style>
 <style lang="scss">
 
 @keyframes blink {
@@ -187,4 +228,50 @@ export default {
 .loader__dot:nth-child(3) {
   animation-delay: 500ms
 }
+
+table.dataTable {
+  thead > tr > th.sorting,
+  thead > tr > th.sorting_asc,
+  thead > tr > th.sorting_desc,
+  thead > tr > td.sorting {
+    cursor: pointer;
+    position: relative;
+    padding-right: 26px;
+
+    &:before,
+    &:after {
+      position: absolute;
+      display: block;
+      opacity: 0.125;
+      right: 10px;
+      line-height: 9px;
+      font-size: 0.8em;
+    }
+  }
+
+  thead > tr > th.sorting:before,
+  thead > tr > th.sorting:after,
+  thead > tr > th.sorting_asc:before,
+  thead > tr > th.sorting_asc:after,
+  thead > tr > th.sorting_desc:before,
+  thead > tr > th.sorting_desc:after {
+    bottom: 50%;
+    content: "▲";
+    content: "▲" / "";
+  }
+
+  thead > tr > th.sorting:after,
+  thead > tr > th.sorting_asc:after,
+  thead > tr > th.sorting_desc:after {
+    top: 50%;
+    content: "▼";
+    content: "▼" / "";
+  }
+
+  thead > tr > th.sorting_asc:before,
+  thead > tr > th.sorting_desc:after {
+    opacity: 0.6;
+  }
+}
+
 </style>
