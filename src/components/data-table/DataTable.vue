@@ -170,10 +170,12 @@ export default {
         return;
       }
 
-      if (this.sortColumn === column.field) {
+      let sortColumn = column.sort_column ? column.sort_column : column.field;
+
+      if (this.sortColumn === sortColumn) {
         this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
       } else {
-        this.sortColumn = column.field;
+        this.sortColumn = sortColumn;
         this.sortOrder = 'asc';
       }
       this.fetchData()
