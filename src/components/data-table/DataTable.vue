@@ -33,8 +33,8 @@
                 @click="sort(column)"
                 :class="{
                   sorting: column.sortable,
-                  sorting_asc: sortColumn === column.field && sortOrder === 'asc',
-                  sorting_desc: sortColumn === column.field && sortOrder === 'desc'
+                  sorting_asc: sortField === column.field && sortOrder === 'asc',
+                  sorting_desc: sortField === column.field && sortOrder === 'desc'
             }"
             >
               {{ column.label }}
@@ -107,6 +107,7 @@ export default {
       per_page: 20,
       showing: "",
       page: 1,
+      sortField: null,
       sortColumn: null,
       sortOrder: 'asc', // or 'desc' for descending order
     }
@@ -170,6 +171,7 @@ export default {
         return;
       }
 
+      this.sortField = column.field;
       let sortColumn = column.sort_column ? column.sort_column : column.field;
 
       if (this.sortColumn === sortColumn) {
