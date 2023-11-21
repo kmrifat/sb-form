@@ -35,8 +35,7 @@
                   sorting: column.sortable,
                   sorting_asc: sortField === column.field && sortOrder === 'asc',
                   sorting_desc: sortField === column.field && sortOrder === 'desc'
-            }"
-            >
+                }">
               {{ column.label }}
             </th>
           </tr>
@@ -185,9 +184,7 @@ export default {
 
     fetchData() {
       this.loading = true
-      let searchable_column = this.columns.filter(element => element.searchable).map(element => element.field)
-      console.log(searchable_column)
-      this.axios.get(`${this.url}?searchable=${searchable_column}&q=${this.q}&limit=${this.per_page}&page=${this.page}`).then(({data}) => {
+      this.axios.get(`${this.url}${this.getQuery()}`).then(({data}) => {
         if ('data' in data) {
           this.data = data.data;
           const paginationData = 'meta' in data ? data.meta : data;
