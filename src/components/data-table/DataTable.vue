@@ -147,7 +147,7 @@ export default {
       if (ask) {
         this.axios({
           method: method,
-          url: `${url}/${item[target_key]}/`
+          url: `${url}/${item[target_key]}`
         }).then(response => {
           this.data.splice(this.data.indexOf(item), 1)
           toastr.success(response.data.message, "Success")
