@@ -9,7 +9,7 @@
       <form @submit.prevent="fetchData" class="d-flex justify-content-between sb-datatable">
         <div class="per-page-select">
           <label>
-            <select v-model="per_page" class="form-select" @change="fetchData">
+            <select v-model="limit" class="form-select" @change="fetchData">
               <option value="20">20</option>
               <option value="30">30</option>
               <option value="40">40</option>
@@ -19,7 +19,7 @@
           </label>
         </div>
         <div class="top-search">
-          <input class="form-control" v-model="q" placeholder="Search..." type="text">
+          <input class="form-control" v-model="search" placeholder="Search..." type="text">
         </div>
       </form>
       <div class="table-responsive">
@@ -30,7 +30,7 @@
             <th
                 v-for="column in columns"
                 :key="column.field"
-                @click="sort(column)"
+                @click="sorting(column)"
                 :class="{
                   sorting: column.sortable,
                   sorting_asc: sortField === column.field && sortOrder === 'asc',
@@ -102,12 +102,13 @@ export default {
       loading: true,
       data: [],
       paginationData: [],
-      q: '',
-      per_page: 20,
+      search: this.$route.query.search || '',
+      limit: this.$route.query.limit || 20,
+      page: this.$route.query.page || 1,
+      status: this.$route.query.status || '',
       showing: "",
-      page: 1,
-      sortField: null,
-      sortColumn: null,
+      sortField: this.$route.query.sort,
+      sortColumn: this.$route.query.sort,
       sortOrder: 'asc', // or 'desc' for descending order
     }
   },
@@ -158,14 +159,37 @@ export default {
     },
 
     getQuery() {
-      let query = '?page=' + this.page
-      query += '&limit=' + this.per_page
-      if (this.sortColumn) query += `&sort=${this.sortOrder === 'desc' ? '-' : ''}${this.sortColumn}`
-      if (this.q) query += `&search=${this.q}`
-      return query
+      const { page, limit, search, status } = this;
+
+      const sort = this.sortField ? `${this.sortOrder === 'desc' ? '-' : ''}${this.sortField}` : this.$route.query.sort;
+
+      if (sort !== undefined) {
+        this.sortField = sort.includes('-') ? sort.split('-').pop() : sort;
+        this.sortOrder = sort.includes('-') ? 'desc' : 'asc';
+      }
+
+      const params = {
+        page,
+        limit,
+        sort,
+        search,
+        status,
+      };
+
+      // Exclude undefined or empty values
+      const filteredParams = Object.fromEntries(Object.entries(params).filter(([_, value]) => value !== undefined && value !== ''));
+
+      const query = `?${new URLSearchParams(filteredParams).toString()}`;
+
+      const currentUrl = new URL(window.location.href);
+      currentUrl.search = query;
+
+      window.history.replaceState({}, '', currentUrl.toString());
+
+      return query;
     },
 
-    sort(column) {
+    sorting(column) {
       if (!column.sortable) {
         return;
       }
