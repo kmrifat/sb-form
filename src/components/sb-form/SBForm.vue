@@ -19,6 +19,11 @@
         <button class="btn btn-primary float-end" type="submit">Submit</button>
       </slot>
     </div>
+
+    <div v-if="isLoading" class="overlay" id="overlay"></div>
+    <div v-if="isLoading" class="spinner-border fixed-center" style="width: 4rem; height: 4rem; z-index: 9999;"
+         role="status">
+    </div>
   </form>
 </template>
 
@@ -88,6 +93,7 @@ export default {
   data() {
     return {
       models: {},
+      isLoading: false
     }
   },
   computed: {
@@ -113,6 +119,7 @@ export default {
      * and the form reset can be enable or disable by the @resetForm props
      */
     async submit() {
+      this.isLoading = true
       await this.axios(this.config).then(response => {
         if (this.callBack) {
           this.callBack(response)
@@ -138,6 +145,8 @@ export default {
             break
         }
         throw error
+      }).finally(() => {
+        this.isLoading = false
       })
     },
     setValidationError(error_data) {
@@ -159,8 +168,8 @@ export default {
         let resData
         if ('data' in data) {
           resData = data.data;
-        }else {
-          resData  = data
+        } else {
+          resData = data
         }
         for (let field in this.fields) {
           this.fields[field].value = resData[field]
@@ -192,5 +201,19 @@ export default {
 </script>
 
 <style scoped>
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+  z-index: 9998; /* Ensure the overlay appears above other elements */
+}
 
+.fixed-center {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+}
 </style>
