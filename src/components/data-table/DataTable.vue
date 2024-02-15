@@ -223,7 +223,7 @@ export default {
       }).catch(error => {
         toastr.error(error.response.data.message, `${error.response.status} ${error.response.statusText}`)
         console.error(error.response)
-      })
+      }).finally(this.loading = false)
     }
   },
   mounted() {
