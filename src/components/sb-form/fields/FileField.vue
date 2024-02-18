@@ -2,8 +2,8 @@
   <div :class="fieldInfo.col ? 'col-'+fieldInfo.col : 'col-12'" class="file-filed">
     <label class="form-label mt-3 mb-0">{{ fieldInfo.label }} {{ fieldInfo.required ? '*' : '' }}</label>
     <div class="card shadow-none mt-3" @click="toggleModal">
-      <div class="card-body p-1" v-if="modelValue">
-        <div class="preview w-192 img-thumbnail" :style="'background-image:url('+modelValue+')'"></div>
+      <div class="card-body p-1" v-if="thumbnail">
+        <div class="preview w-192 img-thumbnail" :style="'background-image:url('+thumbnail+')'"></div>
         <button type="button" @click="removeSelectedFile" class="remove-btn btn btn-danger btn-sm rounded-circle position-absolute">
           &#128473;
         </button>
@@ -132,6 +132,7 @@ export default {
       search: '',
       show_files: true,
       file_type: '',
+      thumbnail: '',
       file_list: [],
       selectFileDetails: {}
     }
@@ -147,6 +148,7 @@ export default {
     },
     selectFile(file) {
       this.file_type = file.type
+      this.thumbnail = file.thumbnail
       this.$emit('update:modelValue', file.path)
     },
     removeFile(id) {
@@ -165,6 +167,7 @@ export default {
       }
     },
     removeSelectedFile() {
+      this.modelValue =''
       this.$emit('update:modelValue', null)
     },
     addFile(file_manager) {
