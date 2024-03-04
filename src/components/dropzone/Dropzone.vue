@@ -98,7 +98,7 @@ export default {
           this.resetData();
           if (typeof this.call_back === 'string') {
             this.$parent[this.call_back](response.data.file_manager);
-          } else if (typeof this.call_back === 'function') {
+          } else {
             this.call_back(response)
           }
           alert('File uploaded')
