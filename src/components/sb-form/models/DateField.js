@@ -19,6 +19,7 @@ class DateField extends BaseField {
         this.placeholder = placeholder
         this.col = col
         this.error = error
+        this.value = value
     }
 }
 

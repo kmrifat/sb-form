@@ -5,6 +5,7 @@
         class="form-control"
         :class="fieldInfo.error ? 'is-invalid': ''"
         :value="modelValue"
+        :type="fieldInfo.filedType"
         @input="$emit('update:modelValue', $event.target.value);fieldInfo.error = false"
         :placeholder="fieldInfo.placeholder ? fieldInfo.placeholder : fieldInfo.label"
     />

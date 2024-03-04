@@ -24,7 +24,7 @@ export default {
   name: "Dropzone",
   props: {
     call_back: {
-      type: String,
+      type: [String, Function],
       required: false
     },
     axios: {
@@ -96,8 +96,10 @@ export default {
         this.chunks.shift();
         if (response.data.is_finished) {
           this.resetData();
-          if (this.call_back) {
+          if (typeof this.call_back === 'string') {
             this.$parent[this.call_back](response.data.file_manager);
+          } else {
+            this.call_back(response)
           }
           alert('File uploaded')
           // TODO: show notification that the file has been uploaded successfully
