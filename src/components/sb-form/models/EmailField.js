@@ -11,6 +11,7 @@ class EmailField extends BaseField {
     constructor({label, placeholder, col, error, value} = {}) {
         super()
         this.type = 'string'
+        this.filedType = 'email'
         this.placeholder = placeholder || ''
         this.col = col
         this.error = error || null
