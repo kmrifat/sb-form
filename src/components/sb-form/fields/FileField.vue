@@ -9,7 +9,7 @@
         </button>
       </div>
 
-      <div class="card-body d-flex flex-column justify-content-center text-center" v-else>
+      <div role="button" class="card-body d-flex flex-column justify-content-center text-center" v-else>
         <i class="fas fa-cloud-upload fa-6x"></i>
         <p class="card-text">Click to upload or select file from File Manager.</p>
       </div>
@@ -167,7 +167,6 @@ export default {
       }
     },
     removeSelectedFile() {
-      this.modelValue =''
       this.$emit('update:modelValue', null)
     },
     addFile(file_manager) {
@@ -179,6 +178,11 @@ export default {
       }).catch(error => {
         throw error
       })
+    }
+  },
+  watch  : {
+    'modelValue'() {
+      this.thumbnail = this.modelValue
     }
   },
   mounted() {
