@@ -33,6 +33,7 @@ import StringField from "./fields/StringField.vue";
 import PasswordField from "./fields/PasswordField.vue";
 import TextField from "./fields/TextField.vue";
 import SelectField from "./fields/SelectField.vue";
+import AsyncSelectField from "./fields/AsyncSelectField.vue";
 import FileField from "./fields/FileField.vue";
 import MultiFileFiled from "./fields/MultiFileFiled.vue";
 import DateField from "./fields/DateField.vue";
@@ -51,6 +52,7 @@ export default {
     password: PasswordField,
     text_field: TextField,
     select_field: SelectField,
+    async_select_field: AsyncSelectField,
     multiselect_field: MultiSelectField,
     file_field: FileField,
     multi_file_field: MultiFileFiled,

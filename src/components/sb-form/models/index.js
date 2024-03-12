@@ -4,6 +4,7 @@ import EmailField from "./EmailField";
 import FileFiled from "./FileField";
 import MultiFileFiled from "./MultiFileFiled";
 import SelectField from "./SelectField";
+import AsyncSelectField from "./AsyncSelectField";
 import HiddenField from "./HiddenField";
 import TextField from "./TextField";
 import DateField from "./DateField";
@@ -19,6 +20,7 @@ export {
     FileFiled,
     MultiFileFiled,
     SelectField,
+    AsyncSelectField,
     MultiSelectField,
     HiddenField,
     TextField,
