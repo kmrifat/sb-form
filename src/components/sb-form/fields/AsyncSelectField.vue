@@ -10,7 +10,7 @@
             {{ item.name }}
           </li>
         </ul>
-        <div v-else class="my-auto text-center py-5 fw-bold">
+        <div v-if="!items.length && !loading" class="my-auto text-center py-5 fw-bold">
           No data found!
         </div>
         <div v-if="loading" class="vue-select-loading">Loading...</div>
