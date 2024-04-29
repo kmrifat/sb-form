@@ -8,6 +8,7 @@
 import SBForm from "../components/sb-form/SBForm.vue";
 import apiService from "../services/apiService";
 import {
+  AsyncSelectField,
   CheckboxField, CustomField,
   EmailField,
   FileFiled, MultiFileFiled,
@@ -25,6 +26,12 @@ export default {
   data: () => ({
     axios: apiService,
     fields: {
+      subscription_type_id: new AsyncSelectField({
+        label: 'Subscription Type',
+        col: '6',
+        fetchUrl: 'drop-down/patient',
+        config: {value: 'id', display: 'name'}
+      }),
       radio: new RadioField({
         label: 'Radio',
         inline: true,
