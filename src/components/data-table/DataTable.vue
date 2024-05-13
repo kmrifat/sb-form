@@ -194,15 +194,14 @@ export default {
         return;
       }
 
-      this.sortField = column.field;
       let sortColumn = column.sort_column ? column.sort_column : column.field;
-
       if (this.sortColumn === sortColumn) {
         this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
       } else {
         this.sortColumn = sortColumn;
         this.sortOrder = 'asc';
       }
+      this.sortField = sortColumn;
       this.fetchData()
     },
 
