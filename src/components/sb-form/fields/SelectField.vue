@@ -38,6 +38,7 @@ export default {
   emits: ['update:modelValue'],
   methods: {
     setModel($event) {
+      this.fieldInfo.value = $event.target.value
       this.$emit('update:modelValue', $event.target.value)
     },
     fetchOptionData() {

@@ -1,74 +1,145 @@
 <template>
-  <div class="vue-select-container">
-    <div class="vue-select" ref="select">
-      <input v-model="searchQuery" @keyup="() => debouncedSearch(searchQuery)" @click="showDropdown"
-             class="vue-select-input"
-             placeholder="Search...">
-      <div v-show="isDropdownShow" class="vue-select-dropdown" id="lists-scroll">
-        <ul v-if="items.length > 0" class="vue-select-options">
-          <li v-for="item in items" :key="item.id" @click="selectItem(item)" class="vue-select-option">
-            {{ item.name }}
-          </li>
-        </ul>
-        <div v-if="!items.length && !loading" class="my-auto text-center py-5 fw-bold">
-          No data found!
-        </div>
-        <div v-if="loading" class="vue-select-loading">Loading...</div>
-      </div>
-    </div>
-  </div>
+  <vselect
+      :options="options"
+      :filterable="false"
+      :label="label"
+      :reduce="reduce"
+      :placeholder="placeholder"
+      v-model="selectedValue"
+      @open="onOpen"
+      @close="onClose"
+      @search="handleSearch"
+      :multiple="isMultiple"
+      @option:selected="optionSelected"
+      ref="dropdownRef"
+  >
+    <template v-slot:option="option">
+      {{ formatLabel(option) }}
+    </template>
+    <template #list-footer>
+      <li v-show="hasNextPage" ref="load" class="loader">
+        Loading more options...
+      </li>
+    </template>
+  </vselect>
 </template>
 
 <script setup>
-import {ref, onMounted, onUnmounted} from 'vue';
+import {computed, inject, nextTick, ref, watch} from "vue";
+import vselect from "vue-select";
+import "vue-select/dist/vue-select.css";
 import AsyncSelectField from "../models/AsyncSelectField";
 
-const emit = defineEmits(['update:modelValue', 'selectItem']);
+const paginated = ref([])
+const emit = defineEmits([
+  'update:modelValue'
+]);
 const props = defineProps({
-  axios: {
-    type: Function,
-    required: true,
+  additionalOption: {
+    type: Array,
+    default: []
   },
-  fetchUrl: {
-    type: String,
-    required: true,
+  modelValue: {
+    required: true
   },
-  modelValue: String,
   fieldInfo: {
     type: AsyncSelectField,
     required: true,
     default: () => new AsyncSelectField()
-  }
-});
-
-const searchQuery = ref('');
-const selectedOption = ref(null);
-
-const items = ref([]);
-const meta = ref({});
-let page = ref(1);
-
-const isDropdownShow = ref(false);
-const loading = ref(false);
-let isFetching = ref(false);
-
-const fetchItems = () => {
-  loading.value = true;
-  props.axios.get(`${props.fieldInfo.fetchUrl}?page=${page.value}&q=${searchQuery.value}`).then(({data}) => {
-    if (!data.data.length) {
-      items.value = [];
-      return;
+  },
+  limit: {
+    type: Number,
+    default: 20,
+    required: false
+  },
+  label: {
+    type: String,
+    default: "name"
+  },
+  placeholder: {
+    type: String,
+    default: "Please search or select"
+  },
+  searchKey: {
+    type: String,
+    default: "q"
+  },
+  additionalQuery: {
+    type: Object,
+    default: {}
+  },
+  formatLabel: {
+    type: Function,
+    default: (option) => option.name
+  },
+  optionSelected: {
+    type: Function,
+    default: () => {
     }
+  },
+  reduce: {
+    default: name => name.id
+  },
+  axios: {
+    type: Function,
+    required: true,
+  },
+  isMultiple: {
+    default: false,
+    type: Boolean,
+  }
+})
+const observer = new IntersectionObserver(entries => infiniteScroll(entries))
+const page = ref(0)
+const load = ref(null)
+const dropdownRef = ref(null)
+const query = ref('')
+const hasNextPage = ref(true);
+const parentUl = ref(null);
+let position = 0;
 
-    meta.value = data.meta;
-    items.value = [...items.value, ...data.data];
-    isFetching.value = false;
-  }).catch(error => {
-    console.error('Error fetching items:', error);
-  }).finally(() => {
-    loading.value = false;
-  });
-};
+const getQuery = (firstPage = false) => {
+  const additionalQuery = props.additionalQuery;
+  let paramsQuery = `?page=${!firstPage ? page.value : 1}&offset=${props.limit}`;
+
+  if (additionalQuery && Object.keys(additionalQuery).length > 0) {
+    let params = new URLSearchParams(props.additionalQuery);
+    paramsQuery += `&${params.toString()}`
+  }
+
+  if (query.value && query.value !== '') {
+    paramsQuery += `&${props.searchKey}=${query.value}`
+  }
+
+  return paramsQuery;
+}
+
+const selectedValue = computed({
+  get: () => props.modelValue,
+  set: (value) => emit('update:modelValue', value)
+})
+
+const options = computed(() => {
+  if (props.additionalOption) {
+    return [...props.additionalOption, ...paginated.value]
+  }
+  return paginated ? paginated.value : []
+})
+
+//watcher
+watch(page, () => {
+  handleAPICall(getQuery(), false)
+})
+
+watch(query, () => {
+  handleAPICall(getQuery(true))
+})
+
+watch(selectedValue, (newValue, oldValue) => {
+  if (oldValue !== null && newValue === null) {
+    query.value = '';
+  }
+})
 
 const debounce = (func, delay) => {
   let timeoutId;
@@ -80,117 +151,72 @@ const debounce = (func, delay) => {
   };
 };
 
-// Your search logic function
+const fetchOptionsDebounced = debounce((query) => {
+}, 300); // Adjust delay (in milliseconds) as needed
+
 const handleSearch = (value) => {
-  searchQuery.value = value
-  page.value = 1
-  items.value = []; // Clear previous search results
-  fetchItems()
+  query.value = value;
+  fetchOptionsDebounced(value);
 };
 
-// Debounced search function with a delay of 500 milliseconds
-const debouncedSearch = debounce(handleSearch, 500);
-
-const selectItem = (item) => {
-  emit('update:modelValue', item.id); // Emit event to update parent component
-  emit('selectItem', item); // Emit event to update parent component
-  selectedOption.value = item;
-  searchQuery.value = item.name;
-  isDropdownShow.value = false;
+const clear = () => {
+  paginated.value = [];
+  page.value = 0;
+  hasNextPage.value = true;
 };
 
-const showDropdown = () => {
-  isDropdownShow.value = true;
-};
+const onOpen = async () => {
+  if (query.value !== '' && query.value.length && !selectedValue.value) {
+    query.value = '';
+  }
 
-const hideDropdown = () => {
-  isDropdownShow.value = false;
-};
+  if (hasNextPage.value) {
+    await nextTick()
+    observer.observe(load.value)
+  }
+}
+const onClose = () => {
+  observer.disconnect()
+}
 
-const onScroll = () => {
-  const scrollContainer = document.getElementById('lists-scroll');
-  const scrollPosition = scrollContainer.clientHeight + scrollContainer.scrollTop;
-  const divBottom = scrollContainer.scrollHeight;
-  if (scrollPosition >= divBottom && !isFetching.value) {
-    // Assuming you want to load more drugs when scrolling to the bottom
-    if (items.value.length > 0 && page.value < meta.value.last_page) {
-      isFetching.value = true;
-      page.value++;
-      fetchItems();
+const handleAPICall = (paramsQuery, refreshOption = true) => {
+  props.axios.get(`${props.fieldInfo.fetchUrl}${paramsQuery}`).then(res => {
+    if (!res.data) {
+      return;
     }
-  }
-};
 
-const handleClickOutside = (event) => {
-  if (!event.target.closest('.vue-select-container')) {
-    hideDropdown();
-  }
-};
+    page.value = res.data.meta.current_page ?? 1;
+    hasNextPage.value = res.data.meta.current_page !== res.data.meta.last_page;
 
-onMounted(() => {
-  fetchItems();
-  const scrollContainer = document.getElementById('lists-scroll');
-  scrollContainer.addEventListener('scroll', onScroll);
-  document.addEventListener('click', handleClickOutside);
-});
+    if (refreshOption) {
+      paginated.value = res.data.data
+      return;
+    }
 
-// Clean up the event listeners when the component is unmounted
-onUnmounted(() => {
-  const scrollContainer = document.getElementById('lists-scroll');
-  if (scrollContainer) {
-    scrollContainer.removeEventListener('scroll', onScroll);
+    paginated.value = [
+      ...paginated.value,
+      ...res.data.data
+    ];
+  }).finally(() => {
+    parentUl.value.scrollTop = position;
+  })
+}
+
+const infiniteScroll = async ([{isIntersecting, target}]) => {
+  if (!isIntersecting) {
+    return;
   }
-  document.removeEventListener('click', handleClickOutside);
-});
+
+  page.value++;
+  await nextTick();
+  if (target) {
+    parentUl.value = target.offsetParent;
+    position = target.offsetParent.scrollTop;
+  }
+}
+
+defineExpose({
+  dropdownRef,
+  clear
+})
 </script>
-
-<style scoped>
-.vue-select-container {
-  position: relative;
-}
-
-.vue-select {
-  position: relative;
-  width: 100%;
-}
-
-.vue-select-input {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
-}
-
-.vue-select-dropdown {
-  position: absolute;
-  width: 100%;
-  max-height: 200px;
-  overflow-y: auto;
-  border: 1px solid #ccc;
-  border-top: none;
-  border-radius: 0 0 4px 4px;
-  background-color: #fff;
-  z-index: 1;
-}
-
-.vue-select-options {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-.vue-select-option {
-  padding: 8px;
-  cursor: pointer;
-}
-
-.vue-select-option:hover {
-  background-color: #f0f0f0;
-}
-
-.vue-select-loading {
-  padding: 8px;
-}
-</style>
-

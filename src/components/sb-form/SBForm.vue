@@ -130,10 +130,10 @@ export default {
         if (this.resetForm) {
           this.setModelValue()
         }
-        toastr.success(response.data.message, `${response.status} ${response.statusText}`)
+        toastr.success(response.data.message)
       }).catch(error => {
         try {
-          toastr.error(error.response.data.message, `${error.response.status} ${error.response.statusText}`)
+          toastr.error(error.response.data.message)
         } catch (e) {
           throw error
         }
