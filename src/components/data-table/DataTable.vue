@@ -43,18 +43,23 @@
           </thead>
 
           <tbody>
-          <tr v-for="(value, index) in data" :key="index">
-            <td>{{ getRowNumber(index) }}.</td>
-            <td v-for="column in columns">
-              <slot :name="column.field" :item="value">{{ getValue(value, column.field) }}</slot>
-            </td>
-          </tr>
-
+          <template v-if="data.length">
+            <tr v-for="(value, index) in data" :key="index">
+              <td>{{ getRowNumber(index) }}.</td>
+              <td v-for="column in columns">
+                <slot :name="column.field" :item="value">{{ getValue(value, column.field) }}</slot>
+              </td>
+            </tr>
+          </template>
+          <template v-else>
+            <tr>
+              <td class="fw-bold text-center" :colspan="columns.length+1">No Data Found !</td>
+            </tr>
+          </template>
           </tbody>
         </table>
-        <div class="d-flex justify-content-between table-bottom">
+        <div v-if="data.length" class="d-flex justify-content-between table-bottom">
           <div class="dataTable-info">{{ showing }}</div>
-
           <Pagination :data="paginationData" :limit="3" align="right" @pagination-change-page="getResults"/>
         </div>
       </div>
