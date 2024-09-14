@@ -18,8 +18,9 @@
             entries per page
           </label>
         </div>
-        <div class="top-search">
-          <input class="form-control" v-model="search" placeholder="Search..." type="text">
+        <div class="top-search search-wrapper">
+          <input type="search" v-model="search" class="form-control" placeholder="Search..."/>
+          <i class="fa fa-search"></i>
         </div>
       </form>
       <div class="table-responsive">
@@ -234,7 +235,23 @@ export default {
 
 </style>
 <style lang="scss">
+.search-wrapper {
+  position: relative;
+  padding: 0 23px 10px 15px;
+  input {
+    padding-left: 32px;
+  }
 
+  input:focus + i {
+    color: var(--bs-primary);
+  }
+
+  i {
+    position: absolute;
+    top: 11px;
+    left: 26px;
+  }
+}
 @keyframes blink {
   50% {
     color: transparent
