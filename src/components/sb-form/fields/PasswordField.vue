@@ -68,7 +68,7 @@ export default {
     top: 24px + 10px;
     border: none;
     outline: none;
-    background: white;
+    background: transparent;
 
     &:focus, &:active, &:hover {
       svg {
