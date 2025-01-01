@@ -80,7 +80,9 @@
           <img :src="file.thumbnail" class="w-100 h-100" :alt="file.name">
           <p class="bottom-0 file-name mb-0 position-absolute text-center w-100 py-2">{{ file.name }}</p>
         </div>
-
+        <div v-if="hasMore" class="d-flex justify-content-center w-100">
+          <button type="button" class="btn btn-success btn-sm" @click="loadMore()">Load more</button>
+        </div>
         <div v-if="!file_list.length" class="d-flex justify-content-center w-100">
           <div class="p-2">
             <h1 class="text-black-50">No File Found</h1>
@@ -136,6 +138,9 @@ export default {
   data() {
     return {
       search           : '',
+      page             : 1,
+      limit            : 3,
+      hasMore          : true,
       show_files       : true,
       file_type        : '',
       file_list        : [],
@@ -144,6 +149,10 @@ export default {
     }
   },
   methods: {
+    loadMore(){
+      this.page++
+      this.getFiles();
+    },
     getInfo(file) {
       this.selectFileDetails = file
     },
@@ -193,8 +202,18 @@ export default {
       this.file_list.push(file_manager);
     },
     getFiles() {
-      this.axios.get('/files', {params: {search: this.search}}).then(({data}) => {
-        this.file_list = data
+      const params = {
+        page: this.page,
+        search: this.search,
+        per_page: this.limit
+      }
+      this.axios.get('/files', {params: params}).then(({data}) => {
+        if ('data' in data) {
+          this.file_list = [...this.file_list, ...data.data]
+          this.hasMore = data.current_page < data.last_page;
+        } else {
+          this.file_list = data
+        }
       }).catch(error => {
         throw error
       })

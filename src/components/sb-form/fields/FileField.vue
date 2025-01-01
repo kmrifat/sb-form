@@ -77,6 +77,10 @@
           <p class="file-name py-2 rounded">{{ file.name }}</p>
         </div>
 
+        <div v-if="hasMore" class="d-flex justify-content-center w-100">
+          <button type="button" class="btn btn-success btn-sm" @click="loadMore()">Load more</button>
+        </div>
+
         <div v-if="!file_list.length" class="d-flex justify-content-center w-100">
           <div class="p-2">
             <h1 class="text-black-50">No File Found</h1>
@@ -130,6 +134,9 @@ export default {
   data() {
     return {
       search: '',
+      page: 1,
+      limit: 3,
+      hasMore: true,
       show_files: true,
       file_type: '',
       thumbnail: '',
@@ -172,9 +179,23 @@ export default {
     addFile(file_manager) {
       this.file_list.push(file_manager);
     },
+    loadMore() {
+      this.page++
+      this.getFiles();
+    },
     getFiles() {
-      this.axios.get('/files', {params: {search: this.search}}).then(({data}) => {
-        this.file_list = data
+      const params = {
+        page: this.page,
+        search: this.search,
+        per_page: this.limit
+      }
+      this.axios.get('/files', {params: params}).then(({data}) => {
+        if ('data' in data) {
+          this.file_list = [...this.file_list, ...data.data]
+          this.hasMore = data.current_page < data.last_page;
+        } else {
+          this.file_list = data
+        }
       }).catch(error => {
         throw error
       })
