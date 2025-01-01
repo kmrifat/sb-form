@@ -5,7 +5,7 @@
       <div class="card-body p-1" v-if="thumbnail">
         <div class="preview w-192 img-thumbnail" :style="'background-image:url('+thumbnail+')'"></div>
         <button type="button" @click="removeSelectedFile" class="remove-btn btn btn-danger btn-sm rounded-circle position-absolute">
-          &#128473;
+          X
         </button>
       </div>
 

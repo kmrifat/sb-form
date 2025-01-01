@@ -8,7 +8,7 @@
             <div class="preview w-192 img-thumbnail" :style="'background-image:url('+file+')'"></div>
             <button type="button" @click="removeSelectedFile(index)"
                     class="remove-btn btn btn-danger btn-sm rounded-circle position-absolute">
-              &#128473;
+              X
             </button>
           </div>
           <div
