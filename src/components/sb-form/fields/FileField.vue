@@ -135,7 +135,7 @@ export default {
     return {
       search: '',
       page: 1,
-      limit: 3,
+      limit: 15,
       hasMore: true,
       show_files: true,
       file_type: '',
