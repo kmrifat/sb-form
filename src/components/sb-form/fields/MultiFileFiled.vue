@@ -182,7 +182,7 @@ export default {
     removeFile(id) {
       const result = confirm("Are you sure you want to delete this item?");
       if (result) {
-        this.axios.delete(`/files-delete/${id}`).then(({data}) => {
+        this.axios.delete(`/file-delete/${id}`).then(({data}) => {
           // Check if the file.id exists in the file_list
           const index = this.file_list.findIndex(item => item.id === id);
           if (index !== -1) {
