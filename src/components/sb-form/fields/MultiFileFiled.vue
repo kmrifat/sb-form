@@ -57,6 +57,7 @@
       <div class="d-flex align-content-start flex-wrap">
         <div v-for="file in file_list" @click="toggleFileSelection(file)"
              class="card file-card w-192 m-2 overflow-hidden"
+             :title="file.name"
              :class="{'selected': isFileSelected(file.thumbnail)}">
           <div class="dropdown end-0 pe-2 pt-2 position-absolute">
             <div @click.stop class="dropdown-toggle bg-white p-1 rounded-pill h4 m-0 fw-bold" type="button"
@@ -78,7 +79,7 @@
             </ul>
           </div>
           <img :src="file.thumbnail" class="w-100 h-100" :alt="file.name">
-          <p class="bottom-0 file-name mb-0 position-absolute text-center w-100 py-2">{{ file.name }}</p>
+          <p class="bottom-0 file-name mb-0 position-absolute text-center w-100 py-1">{{ file.name }}</p>
         </div>
         <div v-if="hasMore" class="d-flex justify-content-center w-100">
           <button type="button" class="btn btn-success btn-sm" @click="loadMore()">Load more</button>
@@ -257,8 +258,22 @@ export default {
   cursor : pointer;
 
   .file-name {
-    background : rgba(0, 0, 0, 0.5);
-    color      : #f1f1f1;
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+    background: rgb(0, 0, 0);
+    background: rgba(0, 0, 0, 0.5);
+    color: #f1f1f1;
+    width: 100%;
+    margin-bottom: 0 !important;
+
+
+    /* Multi-line ellipsis */
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Limit to 2 lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   &.selected {
