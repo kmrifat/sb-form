@@ -52,6 +52,7 @@
       </form>
       <div class="d-flex align-content-start flex-wrap">
         <div v-for="file in file_list" @click="selectFile(file)"
+             :title="file.name"
              class="card file-card m-2 w-192"
              :class="{'selected': modelValue === file.path}">
 
@@ -74,7 +75,7 @@
           </div>
 
           <img :src="file.thumbnail" class="rounded w-100 h-100" :alt="file.name">
-          <p class="file-name py-2 rounded">{{ file.name }}</p>
+          <p class="file-name py-1 rounded">{{ file.name }}</p>
         </div>
 
         <div v-if="hasMore" class="d-flex justify-content-center w-100">
@@ -268,6 +269,14 @@ export default {
     color: #f1f1f1;
     width: 100%;
     margin-bottom: 0 !important;
+
+
+    /* Multi-line ellipsis */
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Limit to 2 lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   &.selected {
