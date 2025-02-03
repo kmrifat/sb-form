@@ -90,7 +90,7 @@
       </div>
     </div>
     <div class="offcanvas-body" v-else>
-      <Dropzone call_back="addFile" :axios="axios"/>
+      <Dropzone :accept-file-extension="fieldInfo.acceptFileExtension" call_back="addFile" :axios="axios"/>
     </div>
 
   </div>
@@ -188,7 +188,8 @@ export default {
       const params = {
         page: this.page,
         search: this.search,
-        per_page: this.limit
+        per_page: this.limit,
+        file_type: this.fieldInfo.fileType
       }
       this.axios.get('/files', {params: params}).then(({data}) => {
         if ('data' in data) {
