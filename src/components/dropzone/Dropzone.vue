@@ -5,7 +5,7 @@
         <h3>Drag and Drop File Here</h3>
         <p>Or</p>
         <label class="btn btn-primary" for="fileInput">Select File</label>
-        <input type="file" id="fileInput" style="display: none" @change="select">
+        <input :accept="acceptFileExtension" type="file" id="fileInput" style="display: none" @change="select">
       </div>
     </div>
   </div>
@@ -29,6 +29,10 @@ export default {
     },
     axios: {
       required: true
+    },
+    acceptFileExtension: {
+      type: String,
+      default: ''
     }
   },
   data() {
