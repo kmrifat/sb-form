@@ -203,13 +203,20 @@ export default {
       })
     }
   },
-  watch  : {
-    'modelValue'() {
-      this.thumbnail = this.modelValue
-    }
-  },
   mounted() {
+    if (!this.initialized && this.modelValue) {
+      this.thumbnail = this.modelValue;
+      this.initialized = true;
+    }
     this.getFiles();
+  },
+  watch: {
+    modelValue(newValue) {
+      if (!this.initialized && newValue) {
+        this.thumbnail = newValue;
+        this.initialized = true;
+      }
+    }
   }
 }
 </script>
