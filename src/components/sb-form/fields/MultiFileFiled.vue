@@ -221,13 +221,20 @@ export default {
       })
     }
   },
-  watch  : {
-    'modelValue'() {
-      this.selectedFiles = this.modelValue
-    }
-  },
   mounted() {
+    if (!this.initialized && this.modelValue) {
+      this.selectedFiles = this.modelValue;
+      this.initialized = true;
+    }
     this.getFiles();
+  },
+  watch: {
+    modelValue(newValue) {
+      if (!this.initialized && newValue) {
+        this.selectedFiles = newValue;
+        this.initialized = true;
+      }
+    }
   }
 }
 </script>
