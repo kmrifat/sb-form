@@ -175,6 +175,7 @@ export default {
       }
     },
     removeSelectedFile() {
+      this.thumbnail = '';
       this.$emit('update:modelValue', null)
     },
     addFile(file_manager) {
