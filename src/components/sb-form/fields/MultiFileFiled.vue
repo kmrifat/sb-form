@@ -93,7 +93,7 @@
       </div>
     </div>
     <div class="offcanvas-body" v-else>
-      <Dropzone call_back="addFile" :axios="axios"/>
+      <Dropzone :accept-file-extension="fieldInfo.acceptFileExtension" call_back="addFile" :axios="axios"/>
     </div>
   </div>
 
@@ -206,7 +206,8 @@ export default {
       const params = {
         page: this.page,
         search: this.search,
-        per_page: this.limit
+        per_page: this.limit,
+        file_type: this.fieldInfo.fileType
       }
       this.axios.get('/files', {params: params}).then(({data}) => {
         if ('data' in data) {
@@ -220,13 +221,20 @@ export default {
       })
     }
   },
-  watch  : {
-    'modelValue'() {
-      this.selectedFiles = this.modelValue
-    }
-  },
   mounted() {
+    if (!this.initialized && this.modelValue) {
+      this.selectedFiles = this.modelValue;
+      this.initialized = true;
+    }
     this.getFiles();
+  },
+  watch: {
+    modelValue(newValue) {
+      if (!this.initialized && newValue) {
+        this.selectedFiles = newValue;
+        this.initialized = true;
+      }
+    }
   }
 }
 </script>
