@@ -3,7 +3,13 @@ name: Release
 on:
   push:
     branches:
-      - main
+      - master
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "Select branch to release"
+        required: true
+        default: master
 
 permissions:
   contents: write
