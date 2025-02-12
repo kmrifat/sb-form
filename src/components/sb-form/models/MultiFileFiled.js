@@ -8,7 +8,7 @@ import BaseField from "./base";
  * @property {null|array} [error]
  */
 class MultiFileFiled extends BaseField {
-    constructor({label, placeholder, col, error, value, acceptFileExtension, fileType} = {}) {
+    constructor({label, placeholder, col, error, value, acceptFileExtension} = {}) {
         super();
         this.type = 'multi_file_field'
         this.label = label
@@ -17,7 +17,6 @@ class MultiFileFiled extends BaseField {
         this.error = error
         this.value = value
         this.acceptFileExtension = acceptFileExtension || null
-        this.fileType = fileType || null
     }
 }
 
