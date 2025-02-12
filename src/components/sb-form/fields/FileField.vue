@@ -190,7 +190,7 @@ export default {
         page: this.page,
         search: this.search,
         per_page: this.limit,
-        file_type: this.fieldInfo.fileType
+        file_type: this.fieldInfo.acceptFileExtension
       }
       this.axios.get('/files', {params: params}).then(({data}) => {
         if ('data' in data) {
