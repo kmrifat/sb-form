@@ -33,3 +33,25 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npx semantic-release
+
+      - name: Get Release Version
+        id: get_version
+        run: echo "VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
+
+      - name: Notify Discord
+        if: success() && github.ref == 'refs/heads/preview'
+        run: |
+          curl -H "Content-Type: application/json" \
+                    -X POST \
+                    -d '{
+                      "username": "Release Bot",
+                      "embeds": [{
+                        "title": "🚀 SBForm New Version Release!",
+                        "description": "A new **version** release has been deployed.",
+                        "color": 16776960,
+                        "fields": [
+                          { "name": "Version", "value": "'"${VERSION}"'", "inline": true },
+                          { "name": "Branch", "value": "main", "inline": true }
+                        ]
+                      }]
+                    }' ${{ secrets.DISCORD_WEBHOOK_URL }}
