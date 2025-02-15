@@ -85,13 +85,23 @@ export default {
 
   methods: {
     dropFile(event) {
-      this.file = event.dataTransfer.files.item(0)
-      this.uploaded = 0
+      const file = event.dataTransfer.files.item(0);
+      if (file.size > 2 * 1024 * 1024) { // 2MB in bytes
+        alert('File is too large! Maximum size is 2MB.');
+        return;
+      }
+      this.file = file;
+      this.uploaded = 0;
       this.createChunks();
     },
     select(event) {
-      this.file = event.target.files.item(0);
-      this.uploaded = 0
+      const file = event.target.files.item(0);
+      if (file.size > 2 * 1024 * 1024) { // 2MB in bytes
+        alert('File is too large! Maximum size is 2MB.');
+        return;
+      }
+      this.file = file;
+      this.uploaded = 0;
       this.createChunks();
     },
 
