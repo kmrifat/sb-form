@@ -1,15 +1,9 @@
-name: Release Preview
+name: Release
 
 on:
   push:
     branches:
       - preview
-  workflow_dispatch:
-
-permissions:
-  contents: write
-  issues: write
-  pull-requests: write
 
 jobs:
   release:
@@ -18,32 +12,36 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: "lts/*"
-          cache: "npm"
+          node-version: 18
+          registry-url: https://registry.npmjs.org/
       - run: npm install
-      - run: npm run build
-      - run: npm audit signatures
-      - name: Release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npx semantic-release --branches preview
 
-      # Send Discord Notification on Success
-      - name: Notify Discord
-        if: success()
+      - name: Run Semantic Release
+        id: semantic
+        run: npx semantic-release
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      # ✅ Extract version from package.json
+      - name: Get Release Version
+        id: get_version
+        run: echo "VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
+
+      # ✅ Notify Discord with the extracted version
+      - name: Notify Discord (Preview Only)
+        if: success() && github.ref == 'refs/heads/preview'
         run: |
           curl -H "Content-Type: application/json" \
-                    -X POST \
-                    -d '{
-                      "username": "Release Bot",
-                      "embeds": [{
-                        "title": "🚀 SBForm New preview Release Published!",
-                        "description": "A new development release has been deployed.",
-                        "color": 3066993,
-                        "fields": [
-                          { "name": "Version", "value": "${{ steps.semantic.outputs.new-release-version }}", "inline": true },
-                          { "name": "Branch", "value": "dev", "inline": true }
-                        ]
-                      }]
-                    }' ${{ secrets.DISCORD_WEBHOOK_URL }}
+          -X POST \
+          -d '{
+            "username": "Release Bot",
+            "embeds": [{
+              "title": "🚀 New Preview Release!",
+              "description": "A new **preview** release has been deployed.",
+              "color": 16776960,
+              "fields": [
+                { "name": "Version", "value": "'"${VERSION}"'", "inline": true },
+                { "name": "Branch", "value": "preview", "inline": true }
+              ]
+            }]
+          }' ${{ secrets.DISCORD_WEBHOOK_URL }}
