@@ -22,6 +22,16 @@
     "src",
     "dist"
   ],
+  "release": {
+    "branches": [
+      "master",
+      {
+        "name": "preview",
+        "prerelease": "preview",
+        "mergeRange": true
+      }
+    ]
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
