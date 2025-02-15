@@ -1,4 +1,4 @@
-name: Release
+name: Release Preview
 
 on:
   push:
@@ -28,3 +28,22 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npx semantic-release --branches preview
+
+      # Send Discord Notification on Success
+      - name: Notify Discord
+        if: success()
+        run: |
+          curl -H "Content-Type: application/json" \
+                    -X POST \
+                    -d '{
+                      "username": "Release Bot",
+                      "embeds": [{
+                        "title": "🚀 SBForm New preview Release Published!",
+                        "description": "A new development release has been deployed.",
+                        "color": 3066993,
+                        "fields": [
+                          { "name": "Version", "value": "${{ steps.semantic.outputs.new-release-version }}", "inline": true },
+                          { "name": "Branch", "value": "dev", "inline": true }
+                        ]
+                      }]
+                    }' ${{ secrets.DISCORD_WEBHOOK_URL }}
