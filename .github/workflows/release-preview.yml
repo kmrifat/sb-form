@@ -20,6 +20,8 @@ jobs:
           node-version: 20
           registry-url: https://registry.npmjs.org/
       - run: npm install
+      - run: npm run build
+      - run: npm audit signatures
 
       - name: Run Semantic Release
         id: semantic
